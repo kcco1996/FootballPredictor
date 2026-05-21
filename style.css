@@ -337,19 +337,24 @@ select {
 
 /* Phone-friendly layout */
 @media (max-width: 600px) {
+
   .app {
-    padding: 12px;
+    padding: 10px;
+  }
+
+  .card {
+    padding: 14px;
   }
 
   .app-header {
     flex-direction: column;
     gap: 16px;
-    padding: 20px;
+    padding: 18px;
     border-radius: 18px;
   }
 
   .header-controls {
-    align-items: flex-start;
+    align-items: stretch;
     width: 100%;
   }
 
@@ -361,14 +366,10 @@ select {
     font-size: 21px;
   }
 
-  .card {
-    padding: 16px;
-    border-radius: 18px;
-  }
-
   .section-header {
     flex-direction: column;
-    align-items: flex-start;
+    align-items: stretch;
+    gap: 12px;
   }
 
   .filters {
@@ -384,35 +385,64 @@ select {
     width: 100%;
   }
 
+  /* FIXTURE MOBILE LAYOUT */
   .fixture {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 90px;
+    grid-template-areas:
+      "home homeScore"
+      "away awayScore"
+      "save save";
+    gap: 12px;
+    align-items: center;
+  }
+
+  .home-wrap {
+    grid-area: home;
+    align-items: flex-start;
+  }
+
+  .away-wrap {
+    grid-area: away;
+    align-items: flex-start;
     text-align: left;
   }
 
-  .score-input {
-    width: 100%;
+  .score-input:nth-of-type(1) {
+    grid-area: homeScore;
+  }
+
+  .score-input:nth-of-type(2) {
+    grid-area: awayScore;
   }
 
   .save-btn {
+    grid-area: save;
     width: 100%;
-  }
-
-  .away-wrap,
-  .home-wrap {
-    align-items: flex-start;
-    text-align: left;
+    margin-top: 4px;
   }
 
   .fixture-team,
   .fixture-team.away {
     white-space: normal;
     text-align: left;
+    font-size: 1rem;
+  }
+
+  .score-input {
+    width: 90px;
+    height: 42px;
   }
 
   .club-colour-line {
     max-width: 100%;
   }
 
+  .fixtures-list {
+    max-height: none;
+    overflow-y: visible;
+  }
+
+  /* TABLES */
   table {
     font-size: 13px;
   }

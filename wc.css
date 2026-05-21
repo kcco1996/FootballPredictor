@@ -327,35 +327,35 @@ td:nth-child(2) .team-cell {
 @media (max-width: 600px) {
 
   .app {
-    padding: 12px;
+    padding: 10px;
   }
 
   .app-header {
     flex-direction: column;
-    align-items: flex-start;
+    align-items: stretch;
     gap: 14px;
-    padding: 20px;
+    padding: 18px;
     border-radius: 18px;
   }
 
   .header-icon {
-    font-size: 2.5rem;
+    font-size: 2.3rem;
   }
 
   h1 {
-    font-size: 1.8rem;
+    font-size: 1.7rem;
   }
 
   h2 {
-    font-size: 1.3rem;
+    font-size: 1.25rem;
   }
 
   .tagline {
-    font-size: 0.95rem;
+    font-size: 0.92rem;
   }
 
   .card {
-    padding: 16px;
+    padding: 14px;
     border-radius: 18px;
   }
 
@@ -377,36 +377,58 @@ td:nth-child(2) .team-cell {
     width: 100%;
   }
 
-  /* Fixtures */
+  /* FIXTURES */
   .fixture {
-    grid-template-columns: 1fr;
-    text-align: center;
+    grid-template-columns: 1fr 85px;
+    grid-template-areas:
+      "home homeScore"
+      "away awayScore";
     gap: 12px;
     padding: 16px;
+    align-items: center;
   }
 
-  .home,
+  .home {
+    grid-area: home;
+    text-align: left;
+  }
+
   .away {
-    text-align: center;
+    grid-area: away;
+    text-align: left;
+  }
+
+  .score-input:nth-of-type(1) {
+    grid-area: homeScore;
+  }
+
+  .score-input:nth-of-type(2) {
+    grid-area: awayScore;
   }
 
   .team-cell {
-    justify-content: center !important;
-    flex-wrap: wrap;
+    justify-content: flex-start !important;
+    flex-wrap: nowrap;
+    gap: 10px;
   }
 
   .score-input {
-    width: 100%;
-    max-width: 100px;
-    margin: 0 auto;
+    width: 85px;
+    height: 42px;
+    margin: 0;
   }
 
   .flag {
-    width: 40px;
-    height: 26px;
+    width: 34px;
+    height: 24px;
   }
 
-  /* Tables */
+  .fixtures-list {
+    max-height: none;
+    overflow-y: visible;
+  }
+
+  /* TABLES */
   .group-table {
     overflow-x: auto;
   }
@@ -417,30 +439,31 @@ td:nth-child(2) .team-cell {
 
   th,
   td {
-    font-size: 0.8rem;
+    font-size: 0.78rem;
     padding: 6px;
   }
 
-  /* Knockout */
+  /* KNOCKOUT */
   .knockout-team {
-    grid-template-columns: 1fr;
-    text-align: center;
+    grid-template-columns: 1fr 80px;
+    gap: 10px;
+    align-items: center;
   }
 
   .knockout-score {
-    width: 100%;
+    width: 80px;
   }
 
   .knockout-match .team-cell {
-    justify-content: center;
+    justify-content: flex-start;
   }
 
   .knockout-match .flag {
-    width: 38px;
-    height: 26px;
+    width: 34px;
+    height: 24px;
   }
 
-  /* Qualified Teams */
+  /* QUALIFIED */
   .qualified-grid {
     grid-template-columns: 1fr;
   }
