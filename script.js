@@ -1,3 +1,46 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+import {
+  getAuth,
+  GoogleAuthProvider,
+  signInWithPopup,
+  signOut,
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+
+import {
+  getFirestore,
+  doc,
+  setDoc,
+  getDoc
+} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+
+/* =========================
+   FIREBASE SETUP
+========================= */
+
+const firebaseConfig = {
+  apiKey: "YOUR_KEY",
+  authDomain: "YOUR_PROJECT.firebaseapp.com",
+  projectId: "YOUR_PROJECT_ID",
+  storageBucket: "YOUR_PROJECT.appspot.com",
+  messagingSenderId: "YOUR_SENDER_ID",
+  appId: "YOUR_APP_ID"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+const provider = new GoogleAuthProvider();
+
+let currentUser = null;
+let firebaseReady = false;
+
+const WORLD_CUP_PAGE = "wc.html";
+
+/* =========================
+   LEAGUE DATA
+========================= */
+
 const leagues = {
   premierLeague: {
     name: "Premier League",
@@ -15,10 +58,10 @@ const leagues = {
     teams: [
       "Birmingham City", "Blackburn Rovers", "Bolton Wanderers", "Bristol City",
       "Burnley", "Cardiff City", "Charlton Athletic", "Derby County",
-      "Hull City", "Lincoln City",  "Millwall", "Norwich City",
+      "Hull City", "Lincoln City", "Millwall", "Norwich City",
       "Portsmouth", "Preston North End", "QPR", "Sheffield United",
-      "Southampton", "Stoke City", "Swansea City", "Watford", 
-      "West Bromwich Albion","West Ham United", "Wolves", "Wrexham"
+      "Southampton", "Stoke City", "Swansea City", "Watford",
+      "West Bromwich Albion", "West Ham United", "Wolves", "Wrexham"
     ]
   },
 
@@ -40,8 +83,8 @@ const leagues = {
       "Accrington Stanley", "Barnet", "Bristol Rovers", "Cheltenham Town",
       "Chesterfield", "Colchester United", "Crawley Town", "Crewe Alexandra",
       "Exeter City", "Fleetwood Town", "Gillingham", "Grimsby Town",
-      "Newport County", "Northampton Town", "Notts County", "Oldham Athletic", "Port Vale",
-      "Rochdale", "Rotherham United", "Shrewsbury Town",
+      "Newport County", "Northampton Town", "Notts County", "Oldham Athletic",
+      "Port Vale", "Rochdale", "Rotherham United", "Shrewsbury Town",
       "Swindon Town", "Tranmere Rovers", "Walsall", "York City"
     ]
   },
@@ -76,17 +119,22 @@ const clubColors = {
   "Liverpool": "#C8102E",
   "Manchester City": "#6CABDD",
   "Manchester United": "#DA291C",
+  "Middlesbrough": "#D71920",
   "Newcastle United": "#241F20",
   "Nottingham Forest": "#DD0000",
   "Sunderland": "#EB172B",
+  "Tottenham Hotspur": "#132257",
+  "West Ham United": "#7A263A",
 
   "Birmingham City": "#0033A0",
   "Blackburn Rovers": "#0057B8",
+  "Bolton Wanderers": "#1B458F",
   "Bristol City": "#E21A23",
   "Burnley": "#6C1D45",
   "Cardiff City": "#0070B5",
   "Charlton Athletic": "#D71920",
   "Derby County": "#FFFFFF",
+  "Hull City": "#F4A300",
   "Lincoln City": "#E30613",
   "Millwall": "#001489",
   "Norwich City": "#00A650",
@@ -120,8 +168,10 @@ const clubColors = {
   "Peterborough United": "#005EB8",
   "Plymouth Argyle": "#004B3A",
   "Reading": "#005BAB",
+  "Salford City": "#E30613",
   "Sheffield Wednesday": "#0057B8",
   "Stevenage": "#E30613",
+  "Stockport County": "#1D428A",
   "Wigan Athletic": "#005BAC",
   "Wycombe Wanderers": "#002147",
 
@@ -139,6 +189,7 @@ const clubColors = {
   "Grimsby Town": "#000000",
   "Newport County": "#F58220",
   "Northampton Town": "#7A263A",
+  "Notts County": "#000000",
   "Oldham Athletic": "#0057B8",
   "Port Vale": "#FFFFFF",
   "Rochdale": "#005BAC",
@@ -172,19 +223,7 @@ const clubColors = {
   "Wealdstone": "#005BAC",
   "Woking": "#E30613",
   "Worthing": "#E30613",
-  "Yeovil Town": "#006B3F",
-
-"Middlesbrough": "#D71920",
-"Hull City": "#F4A300",
-
-"Tottenham Hotspur": "#132257",
-"West Ham United": "#7A263A",
-
-"Bolton Wanderers": "#1B458F",
-"Stockport County": "#1D428A",
-
-"Salford City": "#E30613",
-"Notts County": "#000000"
+  "Yeovil Town": "#006B3F"
 };
 
 const badgeOverrides = {
@@ -240,8 +279,59 @@ const badgeOverrides = {
   "Wigan Athletic": "wigan-badge.png",
   "Wycombe Wanderers": "wycombe-badge.png",
   "Yeovil Town": "yeovil-badge.png",
-  "York City": "york-badge.png",
+  "York City": "york-badge.png"
 };
+
+/* =========================
+   APP STATE
+========================= */
+
+let currentLeague = "premierLeague";
+let teams = leagues[currentLeague].teams;
+let fixtures = [];
+let table = [];
+
+const tableBody = document.getElementById("leagueTableBody");
+const fixturesList = document.getElementById("fixturesList");
+const teamFilter = document.getElementById("teamFilter");
+const resetBtn = document.getElementById("resetBtn");
+const leagueSelect = document.getElementById("leagueSelect");
+
+/* =========================
+   HEADER BUTTONS
+========================= */
+
+function createHeaderControls() {
+  const header = document.querySelector(".app-header");
+
+  if (!header) return;
+
+  const controls = document.createElement("div");
+  controls.className = "header-controls";
+
+  controls.innerHTML = `
+    <a class="world-cup-btn" href="${WORLD_CUP_PAGE}">🏆 World Cup Predictor</a>
+    <button id="loginBtn" class="login-btn">Sign in</button>
+    <button id="logoutBtn" class="login-btn" style="display:none;">Sign out</button>
+    <p id="userStatus" class="user-status">Not signed in</p>
+  `;
+
+  header.appendChild(controls);
+
+  document.getElementById("loginBtn").addEventListener("click", () => {
+    signInWithPopup(auth, provider);
+  });
+
+  document.getElementById("logoutBtn").addEventListener("click", () => {
+    signOut(auth);
+  });
+}
+
+createHeaderControls();
+
+/* =========================
+   HELPERS
+========================= */
 
 function teamSlug(team) {
   return team
@@ -262,19 +352,67 @@ function getClubColor(team) {
   return clubColors[team] || "#00ff99";
 }
 
-let currentLeague = "premierLeague";
-let teams = leagues[currentLeague].teams;
-let fixtures = [];
-let table = [];
+function leagueStorageKey(league = currentLeague) {
+  return `fixtures_${league}`;
+}
 
-const tableBody = document.getElementById("leagueTableBody");
-const fixturesList = document.getElementById("fixturesList");
-const teamFilter = document.getElementById("teamFilter");
-const resetBtn = document.getElementById("resetBtn");
-const leagueSelect = document.getElementById("leagueSelect");
+function getAllLocalFixtures() {
+  const data = {};
+
+  Object.keys(leagues).forEach(leagueKey => {
+    data[leagueKey] = JSON.parse(localStorage.getItem(leagueStorageKey(leagueKey))) || [];
+  });
+
+  return data;
+}
+
+/* =========================
+   FIREBASE SAVE / LOAD
+========================= */
+
+async function saveToFirebase() {
+  if (!currentUser || !firebaseReady) return;
+
+  const fixturesByLeague = getAllLocalFixtures();
+  fixturesByLeague[currentLeague] = fixtures;
+
+  await setDoc(doc(db, "footballPredictors", currentUser.uid), {
+    fixturesByLeague,
+    currentLeague,
+    updatedAt: new Date().toISOString()
+  }, { merge: true });
+}
+
+async function loadFromFirebase() {
+  if (!currentUser) return;
+
+  const snap = await getDoc(doc(db, "footballPredictors", currentUser.uid));
+
+  if (!snap.exists()) {
+    await saveToFirebase();
+    return;
+  }
+
+  const data = snap.data();
+  const fixturesByLeague = data.fixturesByLeague || {};
+
+  Object.entries(fixturesByLeague).forEach(([leagueKey, leagueFixtures]) => {
+    localStorage.setItem(leagueStorageKey(leagueKey), JSON.stringify(leagueFixtures));
+  });
+
+  if (data.currentLeague && leagues[data.currentLeague]) {
+    currentLeague = data.currentLeague;
+    leagueSelect.value = currentLeague;
+    teams = leagues[currentLeague].teams;
+  }
+}
+
+/* =========================
+   FIXTURES
+========================= */
 
 function loadFixtures() {
-  fixtures = JSON.parse(localStorage.getItem(`fixtures_${currentLeague}`)) || [];
+  fixtures = JSON.parse(localStorage.getItem(leagueStorageKey())) || [];
 
   if (fixtures.length === 0) {
     generateFixtures();
@@ -282,7 +420,8 @@ function loadFixtures() {
 }
 
 function saveFixtures() {
-  localStorage.setItem(`fixtures_${currentLeague}`, JSON.stringify(fixtures));
+  localStorage.setItem(leagueStorageKey(), JSON.stringify(fixtures));
+  saveToFirebase();
 }
 
 function createEmptyTable() {
@@ -342,6 +481,10 @@ function collectVisibleFixtureInputs() {
 
   saveFixtures();
 }
+
+/* =========================
+   TABLE
+========================= */
 
 function calculateTable() {
   createEmptyTable();
@@ -427,6 +570,10 @@ function renderTable() {
   });
 }
 
+/* =========================
+   RENDERING
+========================= */
+
 function renderTeamFilter() {
   teamFilter.innerHTML = `<option value="all">All teams</option>`;
 
@@ -493,6 +640,16 @@ function renderFixtures() {
   });
 }
 
+function refreshApp() {
+  calculateTable();
+  renderTable();
+  renderFixtures();
+}
+
+/* =========================
+   ACTIONS
+========================= */
+
 function saveFixtureResult(fixtureId) {
   collectVisibleFixtureInputs();
 
@@ -515,12 +672,6 @@ function saveFixtureResult(fixtureId) {
   renderFixtures();
 }
 
-function refreshApp() {
-  calculateTable();
-  renderTable();
-  renderFixtures();
-}
-
 leagueSelect.addEventListener("change", () => {
   collectVisibleFixtureInputs();
 
@@ -530,6 +681,7 @@ leagueSelect.addEventListener("change", () => {
   loadFixtures();
   renderTeamFilter();
   refreshApp();
+  saveToFirebase();
 });
 
 fixturesList.addEventListener("click", event => {
@@ -560,16 +712,47 @@ resetBtn.addEventListener("click", () => {
   if (!confirmReset) return;
 
   fixtures = [];
-  localStorage.removeItem(`fixtures_${currentLeague}`);
+  localStorage.removeItem(leagueStorageKey());
 
   generateFixtures();
   refreshApp();
+  saveToFirebase();
 });
 
+/* =========================
+   AUTH
+========================= */
+
+onAuthStateChanged(auth, async user => {
+  const loginBtn = document.getElementById("loginBtn");
+  const logoutBtn = document.getElementById("logoutBtn");
+  const userStatus = document.getElementById("userStatus");
+
+  currentUser = user;
+  firebaseReady = true;
+
+  if (user) {
+    loginBtn.style.display = "none";
+    logoutBtn.style.display = "inline-block";
+    userStatus.textContent = `Signed in as ${user.email}`;
+
+    await loadFromFirebase();
+  } else {
+    loginBtn.style.display = "inline-block";
+    logoutBtn.style.display = "none";
+    userStatus.textContent = "Not signed in";
+  }
+
+  init();
+});
+
+/* =========================
+   INIT
+========================= */
+
 function init() {
+  teams = leagues[currentLeague].teams;
   loadFixtures();
   renderTeamFilter();
   refreshApp();
 }
-
-init();

@@ -1,3 +1,46 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+import {
+  getAuth,
+  GoogleAuthProvider,
+  signInWithPopup,
+  signOut,
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+
+import {
+  getFirestore,
+  doc,
+  setDoc,
+  getDoc
+} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+
+/* =========================
+   FIREBASE SETUP
+========================= */
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCfiE1Qf3z_fwd6E9mppHWqg_H8H8qeKUM",
+  authDomain: "footballpredictor-28368.firebaseapp.com",
+  projectId: "footballpredictor-28368",
+  storageBucket: "footballpredictor-28368.firebasestorage.app",
+  messagingSenderId: "52688713927",
+  appId: "1:52688713927:web:451c9ac16b516fdaba66e2"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+const provider = new GoogleAuthProvider();
+
+let currentUser = null;
+let firebaseReady = false;
+
+const ENGLISH_LEAGUES_PAGE = "index.html";
+
+/* =========================
+   GROUP DATA
+========================= */
+
 const groups = {
   A: ["Mexico", "South Africa", "South Korea", "Czech Republic"],
   B: ["Canada", "Bosnia and Herzegovina", "Qatar", "Switzerland"],
@@ -64,9 +107,12 @@ const flags = {
   "Ghana": "assets/flags/ghana.png"
 };
 
+/* =========================
+   STATE
+========================= */
+
 let results = JSON.parse(localStorage.getItem("worldCupResults")) || {};
 let knockoutResults = JSON.parse(localStorage.getItem("worldCupKnockoutResults")) || {};
-
 let thirdPlaceAssignments = JSON.parse(localStorage.getItem("worldCupThirdPlaceAssignments")) || {};
 
 const fixturesList = document.getElementById("fixturesList");
@@ -74,6 +120,42 @@ const groupTables = document.getElementById("groupTables");
 const qualifiedList = document.getElementById("qualifiedList");
 const groupFilter = document.getElementById("groupFilter");
 const resetBtn = document.getElementById("resetBtn");
+
+/* =========================
+   HEADER CONTROLS
+========================= */
+
+function createHeaderControls() {
+  const header = document.querySelector(".app-header");
+
+  if (!header) return;
+
+  const controls = document.createElement("div");
+  controls.className = "header-controls";
+
+  controls.innerHTML = `
+    <a class="english-leagues-btn" href="${ENGLISH_LEAGUES_PAGE}">🏴 English Leagues</a>
+    <button id="loginBtn" class="login-btn">Sign in</button>
+    <button id="logoutBtn" class="login-btn" style="display:none;">Sign out</button>
+    <p id="userStatus" class="user-status">Not signed in</p>
+  `;
+
+  header.appendChild(controls);
+
+  document.getElementById("loginBtn").addEventListener("click", () => {
+    signInWithPopup(auth, provider);
+  });
+
+  document.getElementById("logoutBtn").addEventListener("click", () => {
+    signOut(auth);
+  });
+}
+
+createHeaderControls();
+
+/* =========================
+   HELPERS
+========================= */
 
 function getFlag(team) {
   if (!flags[team]) return "";
@@ -89,12 +171,60 @@ function teamWithFlag(team, extraClass = "") {
   `;
 }
 
+function saveLocalData() {
+  localStorage.setItem("worldCupResults", JSON.stringify(results));
+  localStorage.setItem("worldCupKnockoutResults", JSON.stringify(knockoutResults));
+  localStorage.setItem("worldCupThirdPlaceAssignments", JSON.stringify(thirdPlaceAssignments));
+}
+
+/* =========================
+   FIREBASE SAVE / LOAD
+========================= */
+
+async function saveToFirebase() {
+  if (!currentUser || !firebaseReady) return;
+
+  await setDoc(doc(db, "worldCupPredictors", currentUser.uid), {
+    results,
+    knockoutResults,
+    thirdPlaceAssignments,
+    updatedAt: new Date().toISOString()
+  }, { merge: true });
+}
+
+async function loadFromFirebase() {
+  if (!currentUser) return;
+
+  const snap = await getDoc(doc(db, "worldCupPredictors", currentUser.uid));
+
+  if (!snap.exists()) {
+    await saveToFirebase();
+    return;
+  }
+
+  const data = snap.data();
+
+  results = data.results || {};
+  knockoutResults = data.knockoutResults || {};
+  thirdPlaceAssignments = data.thirdPlaceAssignments || {};
+
+  saveLocalData();
+}
+
+/* =========================
+   GROUP FILTER
+========================= */
+
 Object.keys(groups).forEach(group => {
   const option = document.createElement("option");
   option.value = group;
   option.textContent = `Group ${group}`;
   groupFilter.appendChild(option);
 });
+
+/* =========================
+   GROUP FIXTURES
+========================= */
 
 function createFixtures() {
   const fixtures = [];
@@ -119,10 +249,17 @@ const fixtures = createFixtures();
 
 function saveResults() {
   localStorage.setItem("worldCupResults", JSON.stringify(results));
+  saveToFirebase();
 }
 
 function saveKnockoutResults() {
   localStorage.setItem("worldCupKnockoutResults", JSON.stringify(knockoutResults));
+  saveToFirebase();
+}
+
+function saveThirdPlaceAssignments() {
+  localStorage.setItem("worldCupThirdPlaceAssignments", JSON.stringify(thirdPlaceAssignments));
+  saveToFirebase();
 }
 
 function renderFixtures() {
@@ -176,6 +313,10 @@ function handleScoreInput(e) {
   renderTables();
 }
 
+/* =========================
+   TABLES
+========================= */
+
 function blankStats(team, group) {
   return {
     team,
@@ -196,6 +337,7 @@ function calculateTables() {
 
   Object.entries(groups).forEach(([group, teams]) => {
     tables[group] = {};
+
     teams.forEach(team => {
       tables[group][team] = blankStats(team, group);
     });
@@ -204,7 +346,15 @@ function calculateTables() {
   fixtures.forEach(fixture => {
     const result = results[fixture.id];
 
-    if (!result || result.home === "" || result.away === "" || result.home === undefined || result.away === undefined) return;
+    if (
+      !result ||
+      result.home === "" ||
+      result.away === "" ||
+      result.home === undefined ||
+      result.away === undefined
+    ) {
+      return;
+    }
 
     const homeStats = tables[fixture.group][fixture.home];
     const awayStats = tables[fixture.group][fixture.away];
@@ -217,6 +367,7 @@ function calculateTables() {
 
     homeStats.gf += homeGoals;
     homeStats.ga += awayGoals;
+
     awayStats.gf += awayGoals;
     awayStats.ga += homeGoals;
 
@@ -283,6 +434,7 @@ function renderTables() {
             <th>Pts</th>
           </tr>
         </thead>
+
         <tbody>
           ${teams.map((team, index) => `
             <tr>
@@ -309,6 +461,10 @@ function renderTables() {
   renderKnockoutStage(tables);
 }
 
+/* =========================
+   QUALIFICATION
+========================= */
+
 function getQualifiedData(tables) {
   const winners = {};
   const runnersUp = {};
@@ -334,9 +490,18 @@ function renderQualifiedTeams(tables) {
   const { winners, runnersUp, bestThird } = getQualifiedData(tables);
 
   const allQualified = [
-    ...Object.entries(winners).map(([group, team]) => ({ ...team, status: `Group ${group} winner` })),
-    ...Object.entries(runnersUp).map(([group, team]) => ({ ...team, status: `Group ${group} runner-up` })),
-    ...bestThird.map(team => ({ ...team, status: `Best third-place team` }))
+    ...Object.entries(winners).map(([group, team]) => ({
+      ...team,
+      status: `Group ${group} winner`
+    })),
+    ...Object.entries(runnersUp).map(([group, team]) => ({
+      ...team,
+      status: `Group ${group} runner-up`
+    })),
+    ...bestThird.map(team => ({
+      ...team,
+      status: `Best third-place team`
+    }))
   ];
 
   allQualified.forEach(team => {
@@ -354,9 +519,9 @@ function renderQualifiedTeams(tables) {
   });
 }
 
-function saveThirdPlaceAssignments() {
-  localStorage.setItem("worldCupThirdPlaceAssignments", JSON.stringify(thirdPlaceAssignments));
-}
+/* =========================
+   KNOCKOUT LOGIC
+========================= */
 
 function pickThirdTeam(possibleGroups, qualifiedData, slotId) {
   const availableTeams = qualifiedData.bestThird.filter(team =>
@@ -423,7 +588,13 @@ function getSlotTeam(slot, qualifiedData, matchId = "") {
 function getMatchWinner(matchId) {
   const match = knockoutResults[matchId];
 
-  if (!match || match.home === "" || match.away === "" || match.home === undefined || match.away === undefined) {
+  if (
+    !match ||
+    match.home === "" ||
+    match.away === "" ||
+    match.home === undefined ||
+    match.away === undefined
+  ) {
     return null;
   }
 
@@ -436,7 +607,13 @@ function getMatchWinner(matchId) {
 function getMatchLoser(matchId) {
   const match = knockoutResults[matchId];
 
-  if (!match || match.home === "" || match.away === "" || match.home === undefined || match.away === undefined) {
+  if (
+    !match ||
+    match.home === "" ||
+    match.away === "" ||
+    match.home === undefined ||
+    match.away === undefined
+  ) {
     return null;
   }
 
@@ -531,8 +708,8 @@ function renderKnockoutStage(tables) {
     knockoutMatches
       .filter(match => match.round === round)
       .forEach(match => {
-     const homeTeam = getSlotTeam(match.home, qualifiedData, match.id);
-const awayTeam = getSlotTeam(match.away, qualifiedData, match.id);
+        const homeTeam = getSlotTeam(match.home, qualifiedData, match.id);
+        const awayTeam = getSlotTeam(match.away, qualifiedData, match.id);
 
         if (!knockoutResults[match.id]) knockoutResults[match.id] = {};
 
@@ -545,7 +722,9 @@ const awayTeam = getSlotTeam(match.away, qualifiedData, match.id);
         matchDiv.className = "knockout-match";
 
         matchDiv.innerHTML = `
-          <div class="knockout-meta">Match ${match.id} · ${match.date} · ${match.city}</div>
+          <div class="knockout-meta">
+            Match ${match.id} · ${match.date} · ${match.city}
+          </div>
 
           <div class="knockout-team">
             ${teamWithFlag(homeTeam)}
@@ -587,6 +766,10 @@ function handleKnockoutScoreInput(e) {
   renderTables();
 }
 
+/* =========================
+   EVENTS
+========================= */
+
 groupFilter.addEventListener("change", renderFixtures);
 
 resetBtn.addEventListener("click", () => {
@@ -594,13 +777,41 @@ resetBtn.addEventListener("click", () => {
     results = {};
     knockoutResults = {};
     thirdPlaceAssignments = {};
+
     localStorage.removeItem("worldCupResults");
     localStorage.removeItem("worldCupKnockoutResults");
     localStorage.removeItem("worldCupThirdPlaceAssignments");
+
+    saveToFirebase();
     renderFixtures();
     renderTables();
   }
 });
 
-renderFixtures();
-renderTables();
+/* =========================
+   AUTH
+========================= */
+
+onAuthStateChanged(auth, async user => {
+  const loginBtn = document.getElementById("loginBtn");
+  const logoutBtn = document.getElementById("logoutBtn");
+  const userStatus = document.getElementById("userStatus");
+
+  currentUser = user;
+  firebaseReady = true;
+
+  if (user) {
+    loginBtn.style.display = "none";
+    logoutBtn.style.display = "inline-block";
+    userStatus.textContent = `Signed in as ${user.email}`;
+
+    await loadFromFirebase();
+  } else {
+    loginBtn.style.display = "inline-block";
+    logoutBtn.style.display = "none";
+    userStatus.textContent = "Not signed in";
+  }
+
+  renderFixtures();
+  renderTables();
+});
