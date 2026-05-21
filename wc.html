@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>World Cup 2026 Predictor</title>
+  <link rel="stylesheet" href="wc.css" />
+</head>
+
+<body>
+  <div class="app">
+
+    <header class="app-header">
+      <div>
+        <p class="eyebrow">Football App</p>
+        <h1>World Cup 2026 Predictor</h1>
+        <p class="tagline">Predict every group result and build the knockout stage.</p>
+      </div>
+
+      <div class="header-icon">🏆</div>
+    </header>
+
+    <main class="main-grid">
+
+      <section class="card">
+        <div class="section-header">
+          <div>
+            <p class="eyebrow">Group stage</p>
+            <h2>Fixtures</h2>
+          </div>
+
+          <div class="filters">
+            <select id="groupFilter">
+              <option value="all">All groups</option>
+            </select>
+
+            <button id="resetBtn" class="danger-btn">Reset</button>
+          </div>
+        </div>
+
+        <div id="fixturesList" class="fixtures-list"></div>
+      </section>
+
+      <section class="card">
+        <div class="section-header">
+          <div>
+            <p class="eyebrow">Live standings</p>
+            <h2>Group Tables</h2>
+          </div>
+        </div>
+
+        <div id="groupTables" class="groups-grid"></div>
+      </section>
+
+      <section class="card wide-card">
+        <div class="section-header">
+          <div>
+            <p class="eyebrow">Qualified teams</p>
+            <h2>Round of 32</h2>
+          </div>
+        </div>
+
+        <div id="qualifiedList" class="qualified-grid"></div>
+      </section>
+
+    </main>
+
+  </div>
+
+  <script src="wc.js"></script>
+</body>
+</html>

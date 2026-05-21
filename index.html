@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Premier League Table Predictor</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <div class="app">
+
+    <header class="app-header">
+      <div>
+        <p class="eyebrow">Football App</p>
+        <h1>Premier League Table Predictor</h1>
+        <p class="tagline">
+          Enter match scores and build a full 38-game league table.
+        </p>
+      </div>
+
+      <div class="header-icon">⚽</div>
+    </header>
+
+    <main class="main-grid">
+
+      <!-- League Table -->
+      <section class="card table-card">
+        <div class="section-header">
+          <div>
+            <p class="eyebrow">Live standings</p>
+            <h2>League Table</h2>
+          </div>
+
+          <button id="resetBtn" class="danger-btn">Reset Season</button>
+        </div>
+
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Pos</th>
+                <th>Team</th>
+                <th>P</th>
+                <th>W</th>
+                <th>D</th>
+                <th>L</th>
+                <th>GF</th>
+                <th>GA</th>
+                <th>GD</th>
+                <th>Pts</th>
+              </tr>
+            </thead>
+
+            <tbody id="leagueTableBody">
+              <!-- JavaScript will fill this -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Fixtures -->
+      <section class="card fixtures-card">
+        <div class="section-header">
+          <div>
+            <p class="eyebrow">Match predictor</p>
+            <h2>Fixtures</h2>
+          </div>
+
+      <div class="filters">
+
+  <select id="leagueSelect">
+    <option value="premierLeague">Premier League</option>
+    <option value="championship">Championship</option>
+    <option value="leagueOne">League One</option>
+    <option value="leagueTwo">League Two</option>
+    <option value="conference">National League</option>
+  </select>
+
+  <select id="teamFilter">
+    <option value="all">All teams</option>
+  </select>
+
+</div>
+        </div>
+
+        <div id="fixturesList" class="fixtures-list">
+          <!-- JavaScript will fill this -->
+        </div>
+      </section>
+
+    </main>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
