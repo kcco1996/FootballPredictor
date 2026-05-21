@@ -322,3 +322,126 @@ td:nth-child(2) .team-cell {
   font-weight: bold;
   cursor: pointer;
 }
+
+/* Mobile Optimisation */
+@media (max-width: 600px) {
+
+  .app {
+    padding: 12px;
+  }
+
+  .app-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 20px;
+    border-radius: 18px;
+  }
+
+  .header-icon {
+    font-size: 2.5rem;
+  }
+
+  h1 {
+    font-size: 1.8rem;
+  }
+
+  h2 {
+    font-size: 1.3rem;
+  }
+
+  .tagline {
+    font-size: 0.95rem;
+  }
+
+  .card {
+    padding: 16px;
+    border-radius: 18px;
+  }
+
+  .section-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .filters {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  select,
+  button,
+  .danger-btn,
+  .english-leagues-btn {
+    width: 100%;
+  }
+
+  /* Fixtures */
+  .fixture {
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: 12px;
+    padding: 16px;
+  }
+
+  .home,
+  .away {
+    text-align: center;
+  }
+
+  .team-cell {
+    justify-content: center !important;
+    flex-wrap: wrap;
+  }
+
+  .score-input {
+    width: 100%;
+    max-width: 100px;
+    margin: 0 auto;
+  }
+
+  .flag {
+    width: 40px;
+    height: 26px;
+  }
+
+  /* Tables */
+  .group-table {
+    overflow-x: auto;
+  }
+
+  table {
+    min-width: 500px;
+  }
+
+  th,
+  td {
+    font-size: 0.8rem;
+    padding: 6px;
+  }
+
+  /* Knockout */
+  .knockout-team {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .knockout-score {
+    width: 100%;
+  }
+
+  .knockout-match .team-cell {
+    justify-content: center;
+  }
+
+  .knockout-match .flag {
+    width: 38px;
+    height: 26px;
+  }
+
+  /* Qualified Teams */
+  .qualified-grid {
+    grid-template-columns: 1fr;
+  }
+}

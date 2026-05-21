@@ -334,3 +334,101 @@ select {
   font-size: 0.8rem;
   color: #e9fff2;
 }
+
+/* Phone-friendly layout */
+@media (max-width: 600px) {
+  .app {
+    padding: 12px;
+  }
+
+  .app-header {
+    flex-direction: column;
+    gap: 16px;
+    padding: 20px;
+    border-radius: 18px;
+  }
+
+  .header-controls {
+    align-items: flex-start;
+    width: 100%;
+  }
+
+  h1 {
+    font-size: 24px;
+  }
+
+  h2 {
+    font-size: 21px;
+  }
+
+  .card {
+    padding: 16px;
+    border-radius: 18px;
+  }
+
+  .section-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .filters {
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  select,
+  .danger-btn,
+  .world-cup-btn,
+  .login-btn {
+    width: 100%;
+  }
+
+  .fixture {
+    grid-template-columns: 1fr;
+    text-align: left;
+  }
+
+  .score-input {
+    width: 100%;
+  }
+
+  .save-btn {
+    width: 100%;
+  }
+
+  .away-wrap,
+  .home-wrap {
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .fixture-team,
+  .fixture-team.away {
+    white-space: normal;
+    text-align: left;
+  }
+
+  .club-colour-line {
+    max-width: 100%;
+  }
+
+  table {
+    font-size: 13px;
+  }
+
+  th,
+  td {
+    padding: 10px 8px;
+    font-size: 13px;
+  }
+
+  .table-team {
+    gap: 8px;
+  }
+
+  .table-badge {
+    width: 26px;
+    height: 26px;
+  }
+}
