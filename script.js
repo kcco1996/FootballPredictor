@@ -19,12 +19,12 @@ import {
 ========================= */
 
 const firebaseConfig = {
-  apiKey: "YOUR_KEY",
-  authDomain: "YOUR_PROJECT.firebaseapp.com",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_PROJECT.appspot.com",
-  messagingSenderId: "YOUR_SENDER_ID",
-  appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyCfiE1Qf3z_fwd6E9mppHWqg_H8H8qeKUM",
+  authDomain: "footballpredictor-28368.firebaseapp.com",
+  projectId: "footballpredictor-28368",
+  storageBucket: "footballpredictor-28368.firebasestorage.app",
+  messagingSenderId: "52688713927",
+  appId: "1:52688713927:web:451c9ac16b516fdaba66e2"
 };
 
 const app = initializeApp(firebaseConfig);
