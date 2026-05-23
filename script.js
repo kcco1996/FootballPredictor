@@ -434,7 +434,7 @@ function createEmptyTable() {
     goalsFor: 0,
     goalsAgainst: 0,
     goalDifference: 0,
-    points: 0
+    points: team === "Southampton" ? -4 : 0
   }));
 }
 
