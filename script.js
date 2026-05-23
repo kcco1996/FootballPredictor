@@ -47,8 +47,8 @@ const leagues = {
     teams: [
       "Arsenal", "Aston Villa", "Bournemouth", "Brentford", "Brighton",
       "Chelsea", "Coventry City", "Crystal Palace", "Everton", "Fulham",
-      "Ipswich Town", "Leeds United", "Liverpool", "Manchester City",
-      "Manchester United", "Middlesbrough", "Newcastle United",
+      "Hull City", "Ipswich Town", "Leeds United", "Liverpool", "Manchester City",
+      "Manchester United",  "Newcastle United",
       "Nottingham Forest", "Sunderland", "Tottenham Hotspur"
     ]
   },
@@ -58,7 +58,7 @@ const leagues = {
     teams: [
       "Birmingham City", "Blackburn Rovers", "Bolton Wanderers", "Bristol City",
       "Burnley", "Cardiff City", "Charlton Athletic", "Derby County",
-      "Hull City", "Lincoln City", "Millwall", "Norwich City",
+       "Lincoln City", "Middlesbrough", "Millwall", "Norwich City",
       "Portsmouth", "Preston North End", "QPR", "Sheffield United",
       "Southampton", "Stoke City", "Swansea City", "Watford",
       "West Bromwich Albion", "West Ham United", "Wolves", "Wrexham"
