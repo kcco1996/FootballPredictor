@@ -462,3 +462,15 @@ select {
     height: 26px;
   }
 }
+
+tr.automatic-promotion {
+  background: rgba(0, 255, 153, 0.12);
+}
+
+tr.playoff-place {
+  background: rgba(255, 204, 0, 0.14);
+}
+
+tr.relegation-place {
+  background: rgba(255, 70, 70, 0.14);
+}

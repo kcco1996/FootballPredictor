@@ -543,6 +543,12 @@ function renderTable() {
   table.forEach((team, index) => {
     const row = document.createElement("tr");
 
+    if (currentLeague === "championship") {
+  if (index <= 1) row.classList.add("automatic-promotion");
+  if (index >= 2 && index <= 7) row.classList.add("playoff-place");
+  if (index >= 21) row.classList.add("relegation-place");
+}
+
     row.innerHTML = `
       <td>${index + 1}</td>
       <td>
