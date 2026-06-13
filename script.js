@@ -113,9 +113,9 @@ const leagues = {
       "Heart of Midlothian",
       "Hibernian",
       "Kilmarnock",
-      "Livingston",
       "Motherwell",
       "Rangers",
+      "St Johnstone",
       "St Mirren"
     ]
   }
@@ -251,9 +251,9 @@ const clubColors = {
   "Heart of Midlothian": "#7A263A",
   "Hibernian": "#007A33",
   "Kilmarnock": "#003087",
-  "Livingston": "#F4C300",
   "Motherwell": "#7A263A",
   "Rangers": "#005EB8",
+  "St Johnstone": "#004A99",
   "St Mirren": "#000000",
 };
 
@@ -320,9 +320,9 @@ const badgeOverrides = {
   "Heart of Midlothian": "hearts-badge.png",
   "Hibernian": "hibernian-badge.png",
   "Kilmarnock": "kilmarnock-badge.png",
-  "Livingston": "livingston-badge.png",
   "Motherwell": "motherwell-badge.png",
   "Rangers": "rangers-badge.png",
+   "St Johnstone": "st-johnstone-badge.png",
   "St Mirren": "st-mirren-badge.png",
 };
 
