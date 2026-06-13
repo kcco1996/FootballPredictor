@@ -100,6 +100,24 @@ const leagues = {
       "Sutton United", "Tamworth", "Wealdstone", "Woking",
       "Worthing", "Yeovil Town"
     ]
+  },
+
+    scottishPremiership: {
+    name: "Scottish Premiership",
+    teams: [
+      "Aberdeen",
+      "Celtic",
+      "Dundee",
+      "Dundee United",
+      "Falkirk",
+      "Heart of Midlothian",
+      "Hibernian",
+      "Kilmarnock",
+      "Livingston",
+      "Motherwell",
+      "Rangers",
+      "St Mirren"
+    ]
   }
 };
 
@@ -223,7 +241,20 @@ const clubColors = {
   "Wealdstone": "#005BAC",
   "Woking": "#E30613",
   "Worthing": "#E30613",
-  "Yeovil Town": "#006B3F"
+  "Yeovil Town": "#006B3F",
+
+    "Aberdeen": "#D71920",
+  "Celtic": "#009A44",
+  "Dundee": "#003087",
+  "Dundee United": "#F58220",
+  "Falkirk": "#1D428A",
+  "Heart of Midlothian": "#7A263A",
+  "Hibernian": "#007A33",
+  "Kilmarnock": "#003087",
+  "Livingston": "#F4C300",
+  "Motherwell": "#7A263A",
+  "Rangers": "#005EB8",
+  "St Mirren": "#000000",
 };
 
 const badgeOverrides = {
@@ -279,7 +310,20 @@ const badgeOverrides = {
   "Wigan Athletic": "wigan-badge.png",
   "Wycombe Wanderers": "wycombe-badge.png",
   "Yeovil Town": "yeovil-badge.png",
-  "York City": "york-badge.png"
+  "York City": "york-badge.png",
+
+    "Aberdeen": "aberdeen-badge.png",
+  "Celtic": "celtic-badge.png",
+  "Dundee": "dundee-badge.png",
+  "Dundee United": "dundee-united-badge.png",
+  "Falkirk": "falkirk-badge.png",
+  "Heart of Midlothian": "hearts-badge.png",
+  "Hibernian": "hibernian-badge.png",
+  "Kilmarnock": "kilmarnock-badge.png",
+  "Livingston": "livingston-badge.png",
+  "Motherwell": "motherwell-badge.png",
+  "Rangers": "rangers-badge.png",
+  "St Mirren": "st-mirren-badge.png",
 };
 
 /* =========================
@@ -547,6 +591,11 @@ function renderTable() {
   if (index <= 1) row.classList.add("automatic-promotion");
   if (index >= 2 && index <= 7) row.classList.add("playoff-place");
   if (index >= 21) row.classList.add("relegation-place");
+
+  if (currentLeague === "scottishPremiership") {
+  if (index === 0) row.classList.add("automatic-promotion"); // Champions
+  if (index >= 10) row.classList.add("relegation-place");    // Bottom two
+}
 }
 
     row.innerHTML = `
