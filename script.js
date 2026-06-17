@@ -102,7 +102,7 @@ const leagues = {
     ]
   },
 
-    scottishPremiership: {
+  scottishPremiership: {
     name: "Scottish Premiership",
     teams: [
       "Aberdeen",
@@ -508,7 +508,6 @@ function generateFixtures() {
 }
 
 function generateScottishPremiershipFixtures() {
-  // Phase 1: every team plays every other team 3 times = 33 games per team
   for (let round = 1; round <= 3; round++) {
     for (let i = 0; i < teams.length; i++) {
       for (let j = i + 1; j < teams.length; j++) {
@@ -527,8 +526,6 @@ function generateScottishPremiershipFixtures() {
       }
     }
   }
-
-  // Phase 2 placeholder fixtures are created after all teams reach 33 played games
 }
 
 function collectVisibleFixtureInputs() {
@@ -597,7 +594,19 @@ function calculateTable() {
     }
   });
 
-  function generateScottishSplitFixturesIfReady() {
+  table.forEach(team => {
+    team.goalDifference = team.goalsFor - team.goalsAgainst;
+  });
+
+  table.sort((a, b) => {
+    if (b.points !== a.points) return b.points - a.points;
+    if (b.goalDifference !== a.goalDifference) return b.goalDifference - a.goalDifference;
+    if (b.goalsFor !== a.goalsFor) return b.goalsFor - a.goalsFor;
+    return a.team.localeCompare(b.team);
+  });
+}
+
+function generateScottishSplitFixturesIfReady() {
   if (currentLeague !== "scottishPremiership") return;
 
   const splitAlreadyCreated = fixtures.some(fixture => fixture.phase === 2);
@@ -635,35 +644,23 @@ function createSplitFixtures(splitTeams, splitName) {
   }
 }
 
-  table.forEach(team => {
-    team.goalDifference = team.goalsFor - team.goalsAgainst;
-  });
-
-  table.sort((a, b) => {
-    if (b.points !== a.points) return b.points - a.points;
-    if (b.goalDifference !== a.goalDifference) return b.goalDifference - a.goalDifference;
-    if (b.goalsFor !== a.goalsFor) return b.goalsFor - a.goalsFor;
-    return a.team.localeCompare(b.team);
-  });
-}
-
 function renderTable() {
   tableBody.innerHTML = "";
 
   table.forEach((team, index) => {
     const row = document.createElement("tr");
 
-if (currentLeague === "championship") {
-  if (index <= 1) row.classList.add("automatic-promotion");
-  if (index >= 2 && index <= 7) row.classList.add("playoff-place");
-  if (index >= 21) row.classList.add("relegation-place");
-}
+    if (currentLeague === "championship") {
+      if (index <= 1) row.classList.add("automatic-promotion");
+      if (index >= 2 && index <= 7) row.classList.add("playoff-place");
+      if (index >= 21) row.classList.add("relegation-place");
+    }
 
-if (currentLeague === "scottishPremiership") {
-  if (index === 0) row.classList.add("automatic-promotion"); // Champions
-  if (index === 11) row.classList.add("relegation-place");   // Relegated
-  if (index === 10) row.classList.add("playoff-place");      // Relegation playoff
-}
+    if (currentLeague === "scottishPremiership") {
+      if (index === 0) row.classList.add("automatic-promotion");
+      if (index === 10) row.classList.add("playoff-place");
+      if (index === 11) row.classList.add("relegation-place");
+    }
 
     row.innerHTML = `
       <td>${index + 1}</td>
@@ -791,9 +788,7 @@ function saveFixtureResult(fixtureId) {
   fixture.played = true;
 
   saveFixtures();
-  calculateTable();
-  renderTable();
-  renderFixtures();
+  refreshApp();
 }
 
 leagueSelect.addEventListener("change", () => {
