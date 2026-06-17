@@ -485,22 +485,50 @@ function createEmptyTable() {
 function generateFixtures() {
   fixtures = [];
 
-  for (let i = 0; i < teams.length; i++) {
-    for (let j = 0; j < teams.length; j++) {
-      if (i !== j) {
-        fixtures.push({
-          id: `${currentLeague}-${teamSlug(teams[i])}-vs-${teamSlug(teams[j])}`,
-          homeTeam: teams[i],
-          awayTeam: teams[j],
-          homeGoals: "",
-          awayGoals: "",
-          played: false
-        });
+  if (currentLeague === "scottishPremiership") {
+    generateScottishPremiershipFixtures();
+  } else {
+    for (let i = 0; i < teams.length; i++) {
+      for (let j = 0; j < teams.length; j++) {
+        if (i !== j) {
+          fixtures.push({
+            id: `${currentLeague}-${teamSlug(teams[i])}-vs-${teamSlug(teams[j])}`,
+            homeTeam: teams[i],
+            awayTeam: teams[j],
+            homeGoals: "",
+            awayGoals: "",
+            played: false
+          });
+        }
       }
     }
   }
 
   saveFixtures();
+}
+
+function generateScottishPremiershipFixtures() {
+  // Phase 1: every team plays every other team 3 times = 33 games per team
+  for (let round = 1; round <= 3; round++) {
+    for (let i = 0; i < teams.length; i++) {
+      for (let j = i + 1; j < teams.length; j++) {
+        const homeTeam = round % 2 === 1 ? teams[i] : teams[j];
+        const awayTeam = round % 2 === 1 ? teams[j] : teams[i];
+
+        fixtures.push({
+          id: `${currentLeague}-phase1-r${round}-${teamSlug(homeTeam)}-vs-${teamSlug(awayTeam)}`,
+          homeTeam,
+          awayTeam,
+          homeGoals: "",
+          awayGoals: "",
+          played: false,
+          phase: 1
+        });
+      }
+    }
+  }
+
+  // Phase 2 placeholder fixtures are created after all teams reach 33 played games
 }
 
 function collectVisibleFixtureInputs() {
@@ -569,6 +597,44 @@ function calculateTable() {
     }
   });
 
+  function generateScottishSplitFixturesIfReady() {
+  if (currentLeague !== "scottishPremiership") return;
+
+  const splitAlreadyCreated = fixtures.some(fixture => fixture.phase === 2);
+  if (splitAlreadyCreated) return;
+
+  const allTeamsPlayed33 = table.every(team => team.played >= 33);
+  if (!allTeamsPlayed33) return;
+
+  const topSix = table.slice(0, 6).map(team => team.team);
+  const bottomSix = table.slice(6, 12).map(team => team.team);
+
+  createSplitFixtures(topSix, "top");
+  createSplitFixtures(bottomSix, "bottom");
+
+  saveFixtures();
+}
+
+function createSplitFixtures(splitTeams, splitName) {
+  for (let i = 0; i < splitTeams.length; i++) {
+    for (let j = i + 1; j < splitTeams.length; j++) {
+      const homeTeam = splitTeams[i];
+      const awayTeam = splitTeams[j];
+
+      fixtures.push({
+        id: `${currentLeague}-phase2-${splitName}-${teamSlug(homeTeam)}-vs-${teamSlug(awayTeam)}`,
+        homeTeam,
+        awayTeam,
+        homeGoals: "",
+        awayGoals: "",
+        played: false,
+        phase: 2,
+        split: splitName
+      });
+    }
+  }
+}
+
   table.forEach(team => {
     team.goalDifference = team.goalsFor - team.goalsAgainst;
   });
@@ -587,15 +653,16 @@ function renderTable() {
   table.forEach((team, index) => {
     const row = document.createElement("tr");
 
-    if (currentLeague === "championship") {
+if (currentLeague === "championship") {
   if (index <= 1) row.classList.add("automatic-promotion");
   if (index >= 2 && index <= 7) row.classList.add("playoff-place");
   if (index >= 21) row.classList.add("relegation-place");
-
-  if (currentLeague === "scottishPremiership") {
-  if (index === 0) row.classList.add("automatic-promotion"); // Champions
-  if (index >= 10) row.classList.add("relegation-place");    // Bottom two
 }
+
+if (currentLeague === "scottishPremiership") {
+  if (index === 0) row.classList.add("automatic-promotion"); // Champions
+  if (index === 11) row.classList.add("relegation-place");   // Relegated
+  if (index === 10) row.classList.add("playoff-place");      // Relegation playoff
 }
 
     row.innerHTML = `
@@ -696,6 +763,8 @@ function renderFixtures() {
 }
 
 function refreshApp() {
+  calculateTable();
+  generateScottishSplitFixturesIfReady();
   calculateTable();
   renderTable();
   renderFixtures();
