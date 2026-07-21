@@ -3,70 +3,1125 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>World Cup 2026 Predictor</title>
+
+  <title>World Cup 2030 Qualifiers</title>
+
   <link rel="stylesheet" href="wc.css" />
 </head>
 
 <body>
+
   <div class="app">
 
+    <!-- =========================
+         HEADER
+    ========================== -->
+
     <header class="app-header">
-      <div>
-        <p class="eyebrow">Football App</p>
-        <h1>World Cup 2026 Predictor</h1>
-        <p class="tagline">Predict every group result and build the knockout stage.</p>
+
+      <div class="header-content">
+        <p class="eyebrow">64-Team Tournament</p>
+
+        <h1>World Cup 2030 Qualifiers</h1>
+
+        <p class="tagline">
+          Build each continent's qualifying groups and select the 64 nations
+          progressing to the World Cup.
+        </p>
       </div>
 
-      <div class="header-icon">🏆</div>
+      <div class="header-icon">🌍</div>
+
     </header>
 
-    <main class="main-grid">
 
-      <section class="card">
-        <div class="section-header">
-          <div>
-            <p class="eyebrow">Group stage</p>
-            <h2>Fixtures</h2>
-          </div>
+    <!-- =========================
+         TOURNAMENT SUMMARY
+    ========================== -->
 
-          <div class="filters">
-            <select id="groupFilter">
-              <option value="all">All groups</option>
-            </select>
+    <section class="world-cup-summary">
 
-            <button id="resetBtn" class="danger-btn">Reset</button>
-          </div>
+      <article class="summary-card">
+        <span id="qualifiedCount" class="summary-number">6</span>
+        <span class="summary-label">Qualified</span>
+      </article>
+
+      <article class="summary-card">
+        <span class="summary-number">64</span>
+        <span class="summary-label">Tournament Places</span>
+      </article>
+
+      <article class="summary-card">
+        <span id="remainingPlaces" class="summary-number">58</span>
+        <span class="summary-label">Places Remaining</span>
+      </article>
+
+      <article class="summary-card">
+        <span class="summary-number">16</span>
+        <span class="summary-label">Final Tournament Groups</span>
+      </article>
+
+    </section>
+
+
+    <!-- =========================
+         AUTOMATIC QUALIFIERS
+    ========================== -->
+
+    <section class="card hosts-section">
+
+      <div class="section-header">
+
+        <div>
+          <p class="eyebrow">Already Qualified</p>
+          <h2>Host Nations</h2>
+
+          <p class="section-description">
+            These nations begin inside the qualified-team list and do not need
+            to be added through continental qualifying.
+          </p>
         </div>
 
-        <div id="fixturesList" class="fixtures-list"></div>
+      </div>
+
+
+      <div class="hosts-grid">
+
+        <article class="host-card">
+
+          <img
+            src="flags/morocco.png"
+            alt="Morocco flag"
+            class="flag"
+          />
+
+          <div class="host-information">
+            <span class="host-name">Morocco</span>
+            <span class="host-label">Host Nation</span>
+          </div>
+
+        </article>
+
+
+        <article class="host-card">
+
+          <img
+            src="flags/portugal.png"
+            alt="Portugal flag"
+            class="flag"
+          />
+
+          <div class="host-information">
+            <span class="host-name">Portugal</span>
+            <span class="host-label">Host Nation</span>
+          </div>
+
+        </article>
+
+
+        <article class="host-card">
+
+          <img
+            src="flags/spain.png"
+            alt="Spain flag"
+            class="flag"
+          />
+
+          <div class="host-information">
+            <span class="host-name">Spain</span>
+            <span class="host-label">Host Nation</span>
+          </div>
+
+        </article>
+
+
+        <article class="host-card">
+
+          <img
+            src="flags/argentina.png"
+            alt="Argentina flag"
+            class="flag"
+          />
+
+          <div class="host-information">
+            <span class="host-name">Argentina</span>
+            <span class="host-label">Centenary Host</span>
+          </div>
+
+        </article>
+
+
+        <article class="host-card">
+
+          <img
+            src="flags/paraguay.png"
+            alt="Paraguay flag"
+            class="flag"
+          />
+
+          <div class="host-information">
+            <span class="host-name">Paraguay</span>
+            <span class="host-label">Centenary Host</span>
+          </div>
+
+        </article>
+
+
+        <article class="host-card">
+
+          <img
+            src="flags/uruguay.png"
+            alt="Uruguay flag"
+            class="flag"
+          />
+
+          <div class="host-information">
+            <span class="host-name">Uruguay</span>
+            <span class="host-label">Centenary Host</span>
+          </div>
+
+        </article>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         CONTINENT NAVIGATION
+    ========================== -->
+
+    <nav class="continent-navigation" aria-label="Continental qualifiers">
+
+      <button
+        type="button"
+        class="continent-btn active"
+        data-continent="uefa"
+      >
+        <span class="continent-icon">🇪🇺</span>
+        <span class="continent-name">Europe</span>
+        <span class="continent-code">UEFA</span>
+      </button>
+
+
+      <button
+        type="button"
+        class="continent-btn"
+        data-continent="caf"
+      >
+        <span class="continent-icon">🌍</span>
+        <span class="continent-name">Africa</span>
+        <span class="continent-code">CAF</span>
+      </button>
+
+
+      <button
+        type="button"
+        class="continent-btn"
+        data-continent="afc"
+      >
+        <span class="continent-icon">🌏</span>
+        <span class="continent-name">Asia</span>
+        <span class="continent-code">AFC</span>
+      </button>
+
+
+      <button
+        type="button"
+        class="continent-btn"
+        data-continent="concacaf"
+      >
+        <span class="continent-icon">🌎</span>
+        <span class="continent-name">North America</span>
+        <span class="continent-code">CONCACAF</span>
+      </button>
+
+
+      <button
+        type="button"
+        class="continent-btn"
+        data-continent="conmebol"
+      >
+        <span class="continent-icon">🌎</span>
+        <span class="continent-name">South America</span>
+        <span class="continent-code">CONMEBOL</span>
+      </button>
+
+
+      <button
+        type="button"
+        class="continent-btn"
+        data-continent="ofc"
+      >
+        <span class="continent-icon">🌊</span>
+        <span class="continent-name">Oceania</span>
+        <span class="continent-code">OFC</span>
+      </button>
+
+    </nav>
+
+
+    <!-- =========================
+         CONTINENTAL QUALIFIERS
+    ========================== -->
+
+    <main>
+
+
+      <!-- =========================
+           UEFA
+      ========================== -->
+
+      <section
+        id="uefaPanel"
+        class="continent-panel active"
+        data-continent-panel="uefa"
+      >
+
+        <div class="continent-header">
+
+          <div class="continent-title">
+
+            <span class="continent-title-icon">🇪🇺</span>
+
+            <div>
+              <p class="eyebrow">UEFA Qualifying</p>
+              <h2>Europe</h2>
+
+              <p>
+                Create and manage the European qualification groups.
+              </p>
+            </div>
+
+          </div>
+
+
+          <div class="continent-stats">
+
+            <div class="continent-stat">
+              <strong id="uefaQualifiedCount">2</strong>
+              <span>Qualified Hosts</span>
+            </div>
+
+            <div class="continent-stat">
+              <strong id="uefaGroupCount">0</strong>
+              <span>Groups</span>
+            </div>
+
+            <div class="continent-stat">
+              <strong id="uefaTeamCount">0</strong>
+              <span>Teams Added</span>
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <section class="qualifying-stage">
+
+          <div class="stage-header">
+
+            <div>
+              <span class="stage-number">Qualifying Stage</span>
+              <h3>European Groups</h3>
+            </div>
+
+            <div class="stage-actions">
+
+              <button
+                type="button"
+                class="primary-btn add-group-btn"
+                data-continent="uefa"
+              >
+                Add Group
+              </button>
+
+              <button
+                type="button"
+                class="secondary-btn add-team-btn"
+                data-continent="uefa"
+              >
+                Add Team
+              </button>
+
+              <button
+                type="button"
+                class="danger-btn reset-continent-btn"
+                data-continent="uefa"
+              >
+                Reset Europe
+              </button>
+
+            </div>
+
+          </div>
+
+
+          <div
+            id="uefaGroups"
+            class="groups-grid"
+          >
+
+            <div class="empty-state">
+              <span class="empty-state-icon">⚽</span>
+              <p>No European groups have been created.</p>
+
+              <button
+                type="button"
+                class="primary-btn add-group-btn"
+                data-continent="uefa"
+              >
+                Create First Group
+              </button>
+            </div>
+
+          </div>
+
+        </section>
+
       </section>
 
-      <section class="card">
-        <div class="section-header">
-          <div>
-            <p class="eyebrow">Live standings</p>
-            <h2>Group Tables</h2>
+
+      <!-- =========================
+           CAF
+      ========================== -->
+
+      <section
+        id="cafPanel"
+        class="continent-panel"
+        data-continent-panel="caf"
+      >
+
+        <div class="continent-header">
+
+          <div class="continent-title">
+
+            <span class="continent-title-icon">🌍</span>
+
+            <div>
+              <p class="eyebrow">CAF Qualifying</p>
+              <h2>Africa</h2>
+
+              <p>
+                Create and manage the African qualification groups.
+              </p>
+            </div>
+
           </div>
+
+
+          <div class="continent-stats">
+
+            <div class="continent-stat">
+              <strong id="cafQualifiedCount">1</strong>
+              <span>Qualified Host</span>
+            </div>
+
+            <div class="continent-stat">
+              <strong id="cafGroupCount">0</strong>
+              <span>Groups</span>
+            </div>
+
+            <div class="continent-stat">
+              <strong id="cafTeamCount">0</strong>
+              <span>Teams Added</span>
+            </div>
+
+          </div>
+
         </div>
 
-        <div id="groupTables" class="groups-grid"></div>
+
+        <section class="qualifying-stage">
+
+          <div class="stage-header">
+
+            <div>
+              <span class="stage-number">Qualifying Stage</span>
+              <h3>African Groups</h3>
+            </div>
+
+            <div class="stage-actions">
+
+              <button
+                type="button"
+                class="primary-btn add-group-btn"
+                data-continent="caf"
+              >
+                Add Group
+              </button>
+
+              <button
+                type="button"
+                class="secondary-btn add-team-btn"
+                data-continent="caf"
+              >
+                Add Team
+              </button>
+
+              <button
+                type="button"
+                class="danger-btn reset-continent-btn"
+                data-continent="caf"
+              >
+                Reset Africa
+              </button>
+
+            </div>
+
+          </div>
+
+
+          <div
+            id="cafGroups"
+            class="groups-grid"
+          >
+
+            <div class="empty-state">
+              <span class="empty-state-icon">⚽</span>
+              <p>No African groups have been created.</p>
+
+              <button
+                type="button"
+                class="primary-btn add-group-btn"
+                data-continent="caf"
+              >
+                Create First Group
+              </button>
+            </div>
+
+          </div>
+
+        </section>
+
       </section>
 
-      <section class="card wide-card">
-        <div class="section-header">
-          <div>
-            <p class="eyebrow">Qualified teams</p>
-            <h2>Round of 32</h2>
+
+      <!-- =========================
+           AFC
+      ========================== -->
+
+      <section
+        id="afcPanel"
+        class="continent-panel"
+        data-continent-panel="afc"
+      >
+
+        <div class="continent-header">
+
+          <div class="continent-title">
+
+            <span class="continent-title-icon">🌏</span>
+
+            <div>
+              <p class="eyebrow">AFC Qualifying</p>
+              <h2>Asia</h2>
+
+              <p>
+                Create and manage the Asian qualification groups.
+              </p>
+            </div>
+
           </div>
+
+
+          <div class="continent-stats">
+
+            <div class="continent-stat">
+              <strong id="afcQualifiedCount">0</strong>
+              <span>Qualified</span>
+            </div>
+
+            <div class="continent-stat">
+              <strong id="afcGroupCount">0</strong>
+              <span>Groups</span>
+            </div>
+
+            <div class="continent-stat">
+              <strong id="afcTeamCount">0</strong>
+              <span>Teams Added</span>
+            </div>
+
+          </div>
+
         </div>
 
-        <div id="qualifiedList" class="qualified-grid"></div>
+
+        <section class="qualifying-stage">
+
+          <div class="stage-header">
+
+            <div>
+              <span class="stage-number">Qualifying Stage</span>
+              <h3>Asian Groups</h3>
+            </div>
+
+            <div class="stage-actions">
+
+              <button
+                type="button"
+                class="primary-btn add-group-btn"
+                data-continent="afc"
+              >
+                Add Group
+              </button>
+
+              <button
+                type="button"
+                class="secondary-btn add-team-btn"
+                data-continent="afc"
+              >
+                Add Team
+              </button>
+
+              <button
+                type="button"
+                class="danger-btn reset-continent-btn"
+                data-continent="afc"
+              >
+                Reset Asia
+              </button>
+
+            </div>
+
+          </div>
+
+
+          <div
+            id="afcGroups"
+            class="groups-grid"
+          >
+
+            <div class="empty-state">
+              <span class="empty-state-icon">⚽</span>
+              <p>No Asian groups have been created.</p>
+
+              <button
+                type="button"
+                class="primary-btn add-group-btn"
+                data-continent="afc"
+              >
+                Create First Group
+              </button>
+            </div>
+
+          </div>
+
+        </section>
+
+      </section>
+
+
+      <!-- =========================
+           CONCACAF
+      ========================== -->
+
+      <section
+        id="concacafPanel"
+        class="continent-panel"
+        data-continent-panel="concacaf"
+      >
+
+        <div class="continent-header">
+
+          <div class="continent-title">
+
+            <span class="continent-title-icon">🌎</span>
+
+            <div>
+              <p class="eyebrow">CONCACAF Qualifying</p>
+              <h2>North America and Caribbean</h2>
+
+              <p>
+                Create and manage the CONCACAF qualification groups.
+              </p>
+            </div>
+
+          </div>
+
+
+          <div class="continent-stats">
+
+            <div class="continent-stat">
+              <strong id="concacafQualifiedCount">0</strong>
+              <span>Qualified</span>
+            </div>
+
+            <div class="continent-stat">
+              <strong id="concacafGroupCount">0</strong>
+              <span>Groups</span>
+            </div>
+
+            <div class="continent-stat">
+              <strong id="concacafTeamCount">0</strong>
+              <span>Teams Added</span>
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <section class="qualifying-stage">
+
+          <div class="stage-header">
+
+            <div>
+              <span class="stage-number">Qualifying Stage</span>
+              <h3>CONCACAF Groups</h3>
+            </div>
+
+            <div class="stage-actions">
+
+              <button
+                type="button"
+                class="primary-btn add-group-btn"
+                data-continent="concacaf"
+              >
+                Add Group
+              </button>
+
+              <button
+                type="button"
+                class="secondary-btn add-team-btn"
+                data-continent="concacaf"
+              >
+                Add Team
+              </button>
+
+              <button
+                type="button"
+                class="danger-btn reset-continent-btn"
+                data-continent="concacaf"
+              >
+                Reset CONCACAF
+              </button>
+
+            </div>
+
+          </div>
+
+
+          <div
+            id="concacafGroups"
+            class="groups-grid"
+          >
+
+            <div class="empty-state">
+              <span class="empty-state-icon">⚽</span>
+              <p>No CONCACAF groups have been created.</p>
+
+              <button
+                type="button"
+                class="primary-btn add-group-btn"
+                data-continent="concacaf"
+              >
+                Create First Group
+              </button>
+            </div>
+
+          </div>
+
+        </section>
+
+      </section>
+
+
+      <!-- =========================
+           CONMEBOL
+      ========================== -->
+
+      <section
+        id="conmebolPanel"
+        class="continent-panel"
+        data-continent-panel="conmebol"
+      >
+
+        <div class="continent-header">
+
+          <div class="continent-title">
+
+            <span class="continent-title-icon">🌎</span>
+
+            <div>
+              <p class="eyebrow">CONMEBOL Qualifying</p>
+              <h2>South America</h2>
+
+              <p>
+                Create the South American qualifying league or custom groups.
+              </p>
+            </div>
+
+          </div>
+
+
+          <div class="continent-stats">
+
+            <div class="continent-stat">
+              <strong id="conmebolQualifiedCount">3</strong>
+              <span>Qualified Hosts</span>
+            </div>
+
+            <div class="continent-stat">
+              <strong id="conmebolGroupCount">0</strong>
+              <span>Groups</span>
+            </div>
+
+            <div class="continent-stat">
+              <strong id="conmebolTeamCount">0</strong>
+              <span>Teams Added</span>
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <section class="qualifying-stage">
+
+          <div class="stage-header">
+
+            <div>
+              <span class="stage-number">Qualifying Stage</span>
+              <h3>South American Competition</h3>
+            </div>
+
+            <div class="stage-actions">
+
+              <button
+                type="button"
+                class="primary-btn add-group-btn"
+                data-continent="conmebol"
+              >
+                Add League
+              </button>
+
+              <button
+                type="button"
+                class="secondary-btn add-team-btn"
+                data-continent="conmebol"
+              >
+                Add Team
+              </button>
+
+              <button
+                type="button"
+                class="danger-btn reset-continent-btn"
+                data-continent="conmebol"
+              >
+                Reset South America
+              </button>
+
+            </div>
+
+          </div>
+
+
+          <div
+            id="conmebolGroups"
+            class="groups-grid"
+          >
+
+            <div class="empty-state">
+              <span class="empty-state-icon">⚽</span>
+              <p>No South American competition has been created.</p>
+
+              <button
+                type="button"
+                class="primary-btn add-group-btn"
+                data-continent="conmebol"
+              >
+                Create League Table
+              </button>
+            </div>
+
+          </div>
+
+        </section>
+
+      </section>
+
+
+      <!-- =========================
+           OFC
+      ========================== -->
+
+      <section
+        id="ofcPanel"
+        class="continent-panel"
+        data-continent-panel="ofc"
+      >
+
+        <div class="continent-header">
+
+          <div class="continent-title">
+
+            <span class="continent-title-icon">🌊</span>
+
+            <div>
+              <p class="eyebrow">OFC Qualifying</p>
+              <h2>Oceania</h2>
+
+              <p>
+                Create and manage the Oceanian qualification groups.
+              </p>
+            </div>
+
+          </div>
+
+
+          <div class="continent-stats">
+
+            <div class="continent-stat">
+              <strong id="ofcQualifiedCount">0</strong>
+              <span>Qualified</span>
+            </div>
+
+            <div class="continent-stat">
+              <strong id="ofcGroupCount">0</strong>
+              <span>Groups</span>
+            </div>
+
+            <div class="continent-stat">
+              <strong id="ofcTeamCount">0</strong>
+              <span>Teams Added</span>
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <section class="qualifying-stage">
+
+          <div class="stage-header">
+
+            <div>
+              <span class="stage-number">Qualifying Stage</span>
+              <h3>Oceanian Groups</h3>
+            </div>
+
+            <div class="stage-actions">
+
+              <button
+                type="button"
+                class="primary-btn add-group-btn"
+                data-continent="ofc"
+              >
+                Add Group
+              </button>
+
+              <button
+                type="button"
+                class="secondary-btn add-team-btn"
+                data-continent="ofc"
+              >
+                Add Team
+              </button>
+
+              <button
+                type="button"
+                class="danger-btn reset-continent-btn"
+                data-continent="ofc"
+              >
+                Reset Oceania
+              </button>
+
+            </div>
+
+          </div>
+
+
+          <div
+            id="ofcGroups"
+            class="groups-grid"
+          >
+
+            <div class="empty-state">
+              <span class="empty-state-icon">⚽</span>
+              <p>No Oceanian groups have been created.</p>
+
+              <button
+                type="button"
+                class="primary-btn add-group-btn"
+                data-continent="ofc"
+              >
+                Create First Group
+              </button>
+            </div>
+
+          </div>
+
+        </section>
+
       </section>
 
     </main>
 
+
+    <!-- =========================
+         INTERCONTINENTAL PLAYOFFS
+    ========================== -->
+
+    <section class="card">
+
+      <div class="section-header">
+
+        <div>
+          <p class="eyebrow">Final Qualification Route</p>
+          <h2>Intercontinental Playoffs</h2>
+
+          <p class="section-description">
+            Add playoff teams from any continent and decide the final World Cup
+            places.
+          </p>
+        </div>
+
+        <button
+          type="button"
+          id="addPlayoffBtn"
+          class="primary-btn"
+        >
+          Add Playoff Match
+        </button>
+
+      </div>
+
+
+      <div
+        id="playoffGrid"
+        class="playoff-grid"
+      >
+
+        <div class="empty-state">
+          <span class="empty-state-icon">🏟️</span>
+          <p>No intercontinental playoff matches have been created.</p>
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         QUALIFIED TEAMS
+    ========================== -->
+
+    <section class="card">
+
+      <div class="section-header">
+
+        <div>
+          <p class="eyebrow">64-Team Tournament</p>
+          <h2>Qualified Nations</h2>
+
+          <p class="section-description">
+            Every nation marked as qualified will appear here.
+          </p>
+        </div>
+
+
+        <div class="qualifying-controls">
+
+          <select id="qualifiedContinentFilter">
+            <option value="all">All Continents</option>
+            <option value="uefa">Europe</option>
+            <option value="caf">Africa</option>
+            <option value="afc">Asia</option>
+            <option value="concacaf">North America</option>
+            <option value="conmebol">South America</option>
+            <option value="ofc">Oceania</option>
+          </select>
+
+          <button
+            type="button"
+            id="resetAllBtn"
+            class="danger-btn"
+          >
+            Reset All Qualifiers
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <div
+        id="qualifiedList"
+        class="qualified-grid"
+      >
+
+        <!-- Host teams can be inserted here by JavaScript. -->
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         FINAL WORLD CUP DRAW
+    ========================== -->
+
+    <section class="card">
+
+      <div class="section-header">
+
+        <div>
+          <p class="eyebrow">Final Tournament</p>
+          <h2>World Cup Group Draw</h2>
+
+          <p class="section-description">
+            Once all 64 countries have qualified, draw them into 16 groups of
+            four teams.
+          </p>
+        </div>
+
+
+        <div class="qualifying-controls">
+
+          <button
+            type="button"
+            id="drawWorldCupBtn"
+            class="primary-btn"
+          >
+            Draw 16 Groups
+          </button>
+
+          <button
+            type="button"
+            id="clearWorldCupDrawBtn"
+            class="secondary-btn"
+          >
+            Clear Draw
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <div
+        id="worldCupGroups"
+        class="groups-grid"
+      >
+
+        <div class="empty-state">
+          <span class="empty-state-icon">🎲</span>
+
+          <p>
+            The final draw will be available when 64 nations have qualified.
+          </p>
+        </div>
+
+      </div>
+
+    </section>
+
   </div>
 
+
   <script type="module" src="wc.js"></script>
+
 </body>
 </html>
