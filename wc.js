@@ -106,6 +106,318 @@ const automaticQualifiers = [
 
 
 /* =========================================================
+   PRESET QUALIFYING GROUPS
+========================================================= */
+
+const presetQualifyingGroups = {
+  uefa: [
+    [
+      "France",
+      "Slovakia",
+      "Bulgaria",
+      "Kazakhstan",
+      "San Marino"
+    ],
+    [
+      "England",
+      "Greece",
+      "Israel",
+      "Latvia",
+      "Liechtenstein"
+    ],
+    [
+      "Belgium",
+      "Scotland",
+      "Finland",
+      "Moldova",
+      "Gibraltar"
+    ],
+    [
+      "Netherlands",
+      "Romania",
+      "Bosnia and Herzegovina",
+      "Faroe Islands",
+      "Andorra"
+    ],
+    [
+      "Germany",
+      "Russia",
+      "Iceland",
+      "Cyprus",
+      "Malta"
+    ],
+    [
+      "Croatia",
+      "Czech Republic",
+      "Georgia",
+      "Estonia"
+    ],
+    [
+      "Italy",
+      "Hungary",
+      "Republic of Ireland",
+      "Azerbaijan"
+    ],
+    [
+      "Switzerland",
+      "Wales",
+      "Albania",
+      "Armenia"
+    ],
+    [
+      "Denmark",
+      "Sweden",
+      "North Macedonia",
+      "Belarus"
+    ],
+    [
+      "Austria",
+      "Poland",
+      "Slovenia",
+      "Kosovo"
+    ],
+    [
+      "Norway",
+      "Serbia",
+      "Northern Ireland",
+      "Lithuania"
+    ],
+    [
+      "Ukraine",
+      "Turkey",
+      "Montenegro",
+      "Luxembourg"
+    ]
+  ],
+
+  caf: [
+    [
+      "Senegal",
+      "Burkina Faso",
+      "Zambia",
+      "Mozambique",
+      "Burundi",
+      "Seychelles"
+    ],
+    [
+      "Egypt",
+      "Cape Verde",
+      "Uganda",
+      "Libya",
+      "Botswana",
+      "Somalia"
+    ],
+    [
+      "Algeria",
+      "Ghana",
+      "Gabon",
+      "Malawi",
+      "Liberia",
+      "Eritrea"
+    ],
+    [
+      "Ivory Coast",
+      "Guinea",
+      "Angola",
+      "Togo",
+      "Mauritius"
+    ],
+    [
+      "Nigeria",
+      "Equatorial Guinea",
+      "Benin",
+      "Tanzania",
+      "Chad"
+    ],
+    [
+      "Tunisia",
+      "South Africa",
+      "Mauritania",
+      "Zimbabwe",
+      "Djibouti"
+    ],
+    [
+      "Cameroon",
+      "DR Congo",
+      "Kenya",
+      "Gambia",
+      "São Tomé and Príncipe"
+    ],
+    [
+      "Mali",
+      "Guinea-Bissau",
+      "Namibia",
+      "Rwanda",
+      "South Sudan"
+    ],
+    [
+      "Sudan",
+      "Congo",
+      "Madagascar",
+      "Sierra Leone",
+      "Eswatini"
+    ],
+    [
+      "Niger",
+      "Ethiopia",
+      "Comoros",
+      "Central African Republic",
+      "Lesotho"
+    ]
+  ],
+
+  afc: [
+    [
+      "Japan",
+      "Kuwait",
+      "North Korea",
+      "Hong Kong",
+      "Bangladesh",
+      "Guam"
+    ],
+    [
+      "Iran",
+      "Jordan",
+      "Thailand",
+      "Singapore",
+      "Bhutan"
+    ],
+    [
+      "South Korea",
+      "Oman",
+      "Vietnam",
+      "Yemen",
+      "Brunei"
+    ],
+    [
+      "Australia",
+      "Bahrain",
+      "Lebanon",
+      "Afghanistan",
+      "Laos"
+    ],
+    [
+      "Qatar",
+      "China PR",
+      "Indonesia",
+      "Myanmar",
+      "Mongolia"
+    ],
+    [
+      "Saudi Arabia",
+      "Syria",
+      "Malaysia",
+      "Chinese Taipei",
+      "Pakistan"
+    ],
+    [
+      "Iraq",
+      "Palestine",
+      "Philippines",
+      "Maldives",
+      "Sri Lanka"
+    ],
+    [
+      "Uzbekistan",
+      "Kyrgyzstan",
+      "India",
+      "Nepal",
+      "Macau"
+    ],
+    [
+      "United Arab Emirates",
+      "Tajikistan",
+      "Turkmenistan",
+      "Cambodia",
+      "Timor-Leste"
+    ]
+  ],
+
+  concacaf: [
+    [
+      "Mexico",
+      "Honduras",
+      "Guatemala",
+      "Barbados",
+      "Anguilla"
+    ],
+    [
+      "Canada",
+      "Jamaica",
+      "Nicaragua",
+      "Antigua and Barbuda",
+      "US Virgin Islands"
+    ],
+    [
+      "United States",
+      "Haiti",
+      "Cuba",
+      "Saint Kitts and Nevis",
+      "Turks and Caicos Islands"
+    ],
+    [
+      "Panama",
+      "Trinidad and Tobago",
+      "Bermuda",
+      "Belize",
+      "British Virgin Islands"
+    ],
+    [
+      "Costa Rica",
+      "El Salvador",
+      "Guyana",
+      "Dominica",
+      "Bahamas"
+    ],
+    [
+      "Curaçao",
+      "Suriname",
+      "Dominican Republic",
+      "Saint Lucia",
+      "Cayman Islands"
+    ],
+    [
+      "Grenada",
+      "Puerto Rico",
+      "Aruba",
+      "Saint Vincent and the Grenadines",
+      "Montserrat"
+    ]
+  ],
+
+  conmebol: [
+    [
+      "Brazil",
+      "Colombia",
+      "Ecuador",
+      "Venezuela",
+      "Peru",
+      "Chile",
+      "Bolivia"
+    ]
+  ],
+
+  ofc: [
+    [
+      "New Zealand",
+      "Solomon Islands",
+      "Fiji",
+      "Papua New Guinea",
+      "Cook Islands",
+      "Tonga"
+    ],
+    [
+      "New Caledonia",
+      "Tahiti",
+      "Vanuatu",
+      "Samoa",
+      "American Samoa"
+    ]
+  ]
+};
+
+
+/* =========================================================
    FLAG HELPERS
 ========================================================= */
 
@@ -140,7 +452,22 @@ const specialFlagFiles = {
   "Sierra Leone": "sierra-leone",
   "Equatorial Guinea": "equatorial-guinea",
   "Guinea-Bissau": "guinea-bissau",
-  "Central African Republic": "central-african-republic"
+  "Central African Republic": "central-african-republic",
+  "São Tomé and Príncipe": "sao-tome-and-principe",
+  "US Virgin Islands": "us-virgin-islands",
+  "British Virgin Islands": "british-virgin-islands",
+  "Turks and Caicos Islands": "turks-and-caicos-islands",
+  "Saint Kitts and Nevis": "saint-kitts-and-nevis",
+  "Saint Vincent and the Grenadines":
+    "saint-vincent-and-the-grenadines",
+  "New Caledonia": "new-caledonia",
+  "Cook Islands": "cook-islands",
+  "American Samoa": "american-samoa",
+  "Timor-Leste": "timor-leste",
+  "China PR": "china",
+  "Chinese Taipei": "chinese-taipei",
+  "Hong Kong": "hong-kong",
+  "Curaçao": "curacao"
 };
 
 function createFlagSlug(teamName) {
@@ -189,28 +516,62 @@ function teamWithFlag(teamName) {
    STATE
 ========================================================= */
 
+function createPresetGroups(continentId) {
+  const presetGroups =
+    presetQualifyingGroups[continentId] || [];
+
+  return presetGroups.map((teamNames, groupIndex) => ({
+    id: `preset-${continentId}-${groupIndex + 1}`,
+    name:
+      continentId === "conmebol"
+        ? "South American League"
+        : `Group ${getGroupLetter(groupIndex)}`,
+    teams: teamNames.map((name, teamIndex) => ({
+      id:
+        `preset-${continentId}-` +
+        `${groupIndex + 1}-${teamIndex + 1}`,
+      name
+    })),
+    results: {}
+  }));
+}
+
+function createPresetContinents() {
+  return {
+    uefa: {
+      groups: createPresetGroups("uefa")
+    },
+    caf: {
+      groups: createPresetGroups("caf")
+    },
+    afc: {
+      groups: createPresetGroups("afc")
+    },
+    concacaf: {
+      groups: createPresetGroups("concacaf")
+    },
+    conmebol: {
+      groups: createPresetGroups("conmebol")
+    },
+    ofc: {
+      groups: createPresetGroups("ofc")
+    }
+  };
+}
+
+function hasAnyQualifyingGroups(candidateState) {
+  return Object.values(
+    candidateState?.continents || {}
+  ).some(
+    continent =>
+      Array.isArray(continent?.groups) &&
+      continent.groups.length > 0
+  );
+}
+
 function createDefaultState() {
   return {
-    continents: {
-      uefa: {
-        groups: []
-      },
-      caf: {
-        groups: []
-      },
-      afc: {
-        groups: []
-      },
-      concacaf: {
-        groups: []
-      },
-      conmebol: {
-        groups: []
-      },
-      ofc: {
-        groups: []
-      }
-    },
+    continents: createPresetContinents(),
 
     playoffMatches: [],
 
@@ -224,30 +585,43 @@ function createDefaultState() {
 }
 
 let state = loadLocalState();
-
-
 /* =========================================================
    DOM ELEMENTS
 ========================================================= */
 
-const qualifiedCount = document.getElementById("qualifiedCount");
-const remainingPlaces = document.getElementById("remainingPlaces");
+const qualifiedCount =
+  document.getElementById("qualifiedCount");
 
-const qualifiedList = document.getElementById("qualifiedList");
-const qualifiedContinentFilter = document.getElementById(
-  "qualifiedContinentFilter"
-);
+const remainingPlaces =
+  document.getElementById("remainingPlaces");
 
-const playoffGrid = document.getElementById("playoffGrid");
-const worldCupGroups = document.getElementById("worldCupGroups");
+const qualifiedList =
+  document.getElementById("qualifiedList");
 
-const drawWorldCupBtn = document.getElementById("drawWorldCupBtn");
-const clearWorldCupDrawBtn = document.getElementById(
-  "clearWorldCupDrawBtn"
-);
+const qualifiedContinentFilter =
+  document.getElementById(
+    "qualifiedContinentFilter"
+  );
 
-const addPlayoffBtn = document.getElementById("addPlayoffBtn");
-const resetAllBtn = document.getElementById("resetAllBtn");
+const playoffGrid =
+  document.getElementById("playoffGrid");
+
+const worldCupGroups =
+  document.getElementById("worldCupGroups");
+
+const drawWorldCupBtn =
+  document.getElementById("drawWorldCupBtn");
+
+const clearWorldCupDrawBtn =
+  document.getElementById(
+    "clearWorldCupDrawBtn"
+  );
+
+const addPlayoffBtn =
+  document.getElementById("addPlayoffBtn");
+
+const resetAllBtn =
+  document.getElementById("resetAllBtn");
 
 
 /* =========================================================
@@ -274,24 +648,32 @@ function getGroupLetter(index) {
 }
 
 function normaliseTeamName(teamName) {
-  return teamName.trim().replace(/\s+/g, " ");
+  return teamName
+    .trim()
+    .replace(/\s+/g, " ");
 }
 
 function teamAlreadyExists(teamName) {
-  const normalised = teamName.toLowerCase();
+  const normalised =
+    teamName.toLowerCase();
 
   if (
     automaticQualifiers.some(
-      team => team.name.toLowerCase() === normalised
+      team =>
+        team.name.toLowerCase() === normalised
     )
   ) {
     return true;
   }
 
-  return Object.values(state.continents).some(continent =>
+  return Object.values(
+    state.continents
+  ).some(continent =>
     continent.groups.some(group =>
       group.teams.some(
-        team => team.name.toLowerCase() === normalised
+        team =>
+          team.name.toLowerCase() ===
+          normalised
       )
     )
   );
@@ -300,7 +682,9 @@ function teamAlreadyExists(teamName) {
 function getAllContinentalTeams() {
   const teams = [];
 
-  Object.entries(state.continents).forEach(
+  Object.entries(
+    state.continents
+  ).forEach(
     ([continentId, continent]) => {
       continent.groups.forEach(group => {
         group.teams.forEach(team => {
@@ -319,11 +703,14 @@ function getAllContinentalTeams() {
 }
 
 function findTeam(teamId) {
-  for (const [continentId, continent] of Object.entries(
-    state.continents
-  )) {
+  for (
+    const [continentId, continent]
+    of Object.entries(state.continents)
+  ) {
     for (const group of continent.groups) {
-      const team = group.teams.find(item => item.id === teamId);
+      const team = group.teams.find(
+        item => item.id === teamId
+      );
 
       if (team) {
         return {
@@ -338,10 +725,119 @@ function findTeam(teamId) {
   return null;
 }
 
-function findGroup(continentId, groupId) {
-  return state.continents[continentId]?.groups.find(
-    group => group.id === groupId
-  );
+function findGroup(
+  continentId,
+  groupId
+) {
+  return state
+    .continents[continentId]
+    ?.groups.find(
+      group => group.id === groupId
+    );
+}
+
+
+/* =========================================================
+   TEAM SWAPPING
+========================================================= */
+
+let selectedSwapTeam = null;
+
+function swapTeams(
+  continentId,
+  teamId
+) {
+  const selectedTeam =
+    findTeam(teamId);
+
+  if (
+    !selectedTeam ||
+    selectedTeam.continentId !==
+      continentId
+  ) {
+    return;
+  }
+
+  if (!selectedSwapTeam) {
+    selectedSwapTeam = {
+      continentId,
+      teamId
+    };
+
+    renderEverything();
+    return;
+  }
+
+  if (
+    selectedSwapTeam.teamId === teamId
+  ) {
+    selectedSwapTeam = null;
+    renderEverything();
+    return;
+  }
+
+  if (
+    selectedSwapTeam.continentId !==
+    continentId
+  ) {
+    alert(
+      "Teams can only be swapped within the same confederation."
+    );
+
+    selectedSwapTeam = null;
+    renderEverything();
+    return;
+  }
+
+  const first =
+    findTeam(
+      selectedSwapTeam.teamId
+    );
+
+  const second =
+    findTeam(teamId);
+
+  if (!first || !second) {
+    selectedSwapTeam = null;
+    renderEverything();
+    return;
+  }
+
+  const firstIndex =
+    first.group.teams.findIndex(
+      team =>
+        team.id === first.team.id
+    );
+
+  const secondIndex =
+    second.group.teams.findIndex(
+      team =>
+        team.id === second.team.id
+    );
+
+  if (
+    firstIndex === -1 ||
+    secondIndex === -1
+  ) {
+    selectedSwapTeam = null;
+    renderEverything();
+    return;
+  }
+
+  first.group.teams[firstIndex] =
+    second.team;
+
+  second.group.teams[secondIndex] =
+    first.team;
+
+  first.group.results = {};
+  second.group.results = {};
+
+  selectedSwapTeam = null;
+  state.finalDraw = {};
+
+  saveState();
+  renderEverything();
 }
 
 
@@ -351,32 +847,54 @@ function findGroup(continentId, groupId) {
 
 function loadLocalState() {
   try {
-    const savedState = localStorage.getItem(
-      "worldCup2030QualifierState"
-    );
+    const savedState =
+      localStorage.getItem(
+        "worldCup2030QualifierState"
+      );
 
     if (!savedState) {
       return createDefaultState();
     }
 
-    const parsedState = JSON.parse(savedState);
-    const defaultState = createDefaultState();
+    const parsedState =
+      JSON.parse(savedState);
+
+    const defaultState =
+      createDefaultState();
+
+    if (
+      !hasAnyQualifyingGroups(
+        parsedState
+      )
+    ) {
+      return defaultState;
+    }
 
     return {
       ...defaultState,
       ...parsedState,
+
       continents: {
         ...defaultState.continents,
         ...(parsedState.continents || {})
       },
+
       qualifiedTeams:
         parsedState.qualifiedTeams ||
         defaultState.qualifiedTeams,
-      playoffMatches: parsedState.playoffMatches || [],
-      finalDraw: parsedState.finalDraw || {}
+
+      playoffMatches:
+        parsedState.playoffMatches || [],
+
+      finalDraw:
+        parsedState.finalDraw || {}
     };
   } catch (error) {
-    console.error("Unable to load local data:", error);
+    console.error(
+      "Unable to load local data:",
+      error
+    );
+
     return createDefaultState();
   }
 }
@@ -399,23 +917,34 @@ function saveState() {
 ========================================================= */
 
 async function saveToFirebase() {
-  if (!currentUser || !firebaseReady) {
+  if (
+    !currentUser ||
+    !firebaseReady
+  ) {
     return;
   }
 
   try {
     await setDoc(
-      doc(db, "worldCup2030Qualifiers", currentUser.uid),
+      doc(
+        db,
+        "worldCup2030Qualifiers",
+        currentUser.uid
+      ),
       {
         state,
-        updatedAt: new Date().toISOString()
+        updatedAt:
+          new Date().toISOString()
       },
       {
         merge: true
       }
     );
   } catch (error) {
-    console.error("Unable to save qualifying data:", error);
+    console.error(
+      "Unable to save qualifying data:",
+      error
+    );
   }
 }
 
@@ -425,45 +954,68 @@ async function loadFromFirebase() {
   }
 
   try {
-    const snapshot = await getDoc(
-      doc(db, "worldCup2030Qualifiers", currentUser.uid)
-    );
+    const snapshot =
+      await getDoc(
+        doc(
+          db,
+          "worldCup2030Qualifiers",
+          currentUser.uid
+        )
+      );
 
     if (!snapshot.exists()) {
       await saveToFirebase();
       return;
     }
 
-    const data = snapshot.data();
+    const data =
+      snapshot.data();
 
     if (data.state) {
-      state = data.state;
+      state =
+        hasAnyQualifyingGroups(
+          data.state
+        )
+          ? data.state
+          : createDefaultState();
+
       ensureAutomaticQualifiers();
       saveLocalState();
     }
   } catch (error) {
-    console.error("Unable to load qualifying data:", error);
+    console.error(
+      "Unable to load qualifying data:",
+      error
+    );
   }
 }
 
 function ensureAutomaticQualifiers() {
-  if (!Array.isArray(state.qualifiedTeams)) {
+  if (
+    !Array.isArray(
+      state.qualifiedTeams
+    )
+  ) {
     state.qualifiedTeams = [];
   }
 
-  automaticQualifiers.forEach(host => {
-    const alreadyIncluded = state.qualifiedTeams.some(
-      team =>
-        team.name.toLowerCase() === host.name.toLowerCase()
-    );
+  automaticQualifiers.forEach(
+    host => {
+      const alreadyIncluded =
+        state.qualifiedTeams.some(
+          team =>
+            team.name.toLowerCase() ===
+            host.name.toLowerCase()
+        );
 
-    if (!alreadyIncluded) {
-      state.qualifiedTeams.push({
-        ...host,
-        automatic: true
-      });
+      if (!alreadyIncluded) {
+        state.qualifiedTeams.push({
+          ...host,
+          automatic: true
+        });
+      }
     }
-  });
+  );
 }
 
 
@@ -472,14 +1024,25 @@ function ensureAutomaticQualifiers() {
 ========================================================= */
 
 function createHeaderControls() {
-  const header = document.querySelector(".app-header");
+  const header =
+    document.querySelector(
+      ".app-header"
+    );
 
-  if (!header || document.querySelector(".header-controls")) {
+  if (
+    !header ||
+    document.querySelector(
+      ".header-controls"
+    )
+  ) {
     return;
   }
 
-  const controls = document.createElement("div");
-  controls.className = "header-controls";
+  const controls =
+    document.createElement("div");
+
+  controls.className =
+    "header-controls";
 
   controls.innerHTML = `
     <a
@@ -506,7 +1069,10 @@ function createHeaderControls() {
       Sign out
     </button>
 
-    <p id="userStatus" class="user-status">
+    <p
+      id="userStatus"
+      class="user-status"
+    >
       Not signed in
     </p>
   `;
@@ -515,24 +1081,42 @@ function createHeaderControls() {
 
   document
     .getElementById("loginBtn")
-    .addEventListener("click", async () => {
-      try {
-        await signInWithPopup(auth, provider);
-      } catch (error) {
-        console.error("Sign-in failed:", error);
-        alert("Google sign-in was unsuccessful.");
+    ?.addEventListener(
+      "click",
+      async () => {
+        try {
+          await signInWithPopup(
+            auth,
+            provider
+          );
+        } catch (error) {
+          console.error(
+            "Sign-in failed:",
+            error
+          );
+
+          alert(
+            "Google sign-in was unsuccessful."
+          );
+        }
       }
-    });
+    );
 
   document
     .getElementById("logoutBtn")
-    .addEventListener("click", async () => {
-      try {
-        await signOut(auth);
-      } catch (error) {
-        console.error("Sign-out failed:", error);
+    ?.addEventListener(
+      "click",
+      async () => {
+        try {
+          await signOut(auth);
+        } catch (error) {
+          console.error(
+            "Sign-out failed:",
+            error
+          );
+        }
       }
-    });
+    );
 }
 
 
@@ -541,46 +1125,61 @@ function createHeaderControls() {
 ========================================================= */
 
 function initialiseContinentNavigation() {
-  const buttons = document.querySelectorAll(".continent-btn");
-  const panels = document.querySelectorAll(".continent-panel");
+  const buttons =
+    document.querySelectorAll(
+      ".continent-btn"
+    );
+
+  const panels =
+    document.querySelectorAll(
+      ".continent-panel"
+    );
 
   buttons.forEach(button => {
-    button.addEventListener("click", () => {
-      const selectedContinent = button.dataset.continent;
+    button.addEventListener(
+      "click",
+      () => {
+        const selectedContinent =
+          button.dataset.continent;
 
-      buttons.forEach(item => {
-        item.classList.toggle(
-          "active",
-          item === button
-        );
-      });
+        buttons.forEach(item => {
+          item.classList.toggle(
+            "active",
+            item === button
+          );
+        });
 
-      panels.forEach(panel => {
-        panel.classList.toggle(
-          "active",
-          panel.dataset.continentPanel === selectedContinent
-        );
-      });
-    });
+        panels.forEach(panel => {
+          panel.classList.toggle(
+            "active",
+            panel.dataset
+              .continentPanel ===
+              selectedContinent
+          );
+        });
+      }
+    );
   });
 }
-
-
 /* =========================================================
    GROUP CREATION
 ========================================================= */
 
 function addGroup(continentId) {
-  const continent = state.continents[continentId];
+  const continent =
+    state.continents[continentId];
 
   if (!continent) {
     return;
   }
 
   const defaultName =
-    continentId === "conmebol" && continent.groups.length === 0
+    continentId === "conmebol" &&
+    continent.groups.length === 0
       ? "South American League"
-      : `Group ${getGroupLetter(continent.groups.length)}`;
+      : `Group ${getGroupLetter(
+          continent.groups.length
+        )}`;
 
   const enteredName = prompt(
     "Enter a name for this group or league:",
@@ -591,7 +1190,8 @@ function addGroup(continentId) {
     return;
   }
 
-  const groupName = enteredName.trim() || defaultName;
+  const groupName =
+    enteredName.trim() || defaultName;
 
   continent.groups.push({
     id: generateId("group"),
@@ -604,8 +1204,15 @@ function addGroup(continentId) {
   renderEverything();
 }
 
-function removeGroup(continentId, groupId) {
-  const group = findGroup(continentId, groupId);
+function removeGroup(
+  continentId,
+  groupId
+) {
+  const group =
+    findGroup(
+      continentId,
+      groupId
+    );
 
   if (!group) {
     return;
@@ -620,30 +1227,51 @@ function removeGroup(continentId, groupId) {
   }
 
   group.teams.forEach(team => {
-    removeQualifiedTeam(team.id, false);
+    removeQualifiedTeam(
+      team.id,
+      false
+    );
   });
 
-  state.continents[continentId].groups =
-    state.continents[continentId].groups.filter(
-      item => item.id !== groupId
-    );
+  state
+    .continents[continentId]
+    .groups =
+    state
+      .continents[continentId]
+      .groups.filter(
+        item => item.id !== groupId
+      );
 
+  selectedSwapTeam = null;
   state.finalDraw = {};
 
   saveState();
   renderEverything();
 }
 
-function renameGroup(continentId, groupId) {
-  const group = findGroup(continentId, groupId);
+function renameGroup(
+  continentId,
+  groupId
+) {
+  const group =
+    findGroup(
+      continentId,
+      groupId
+    );
 
   if (!group) {
     return;
   }
 
-  const newName = prompt("Rename this group:", group.name);
+  const newName = prompt(
+    "Rename this group:",
+    group.name
+  );
 
-  if (newName === null || !newName.trim()) {
+  if (
+    newName === null ||
+    !newName.trim()
+  ) {
     return;
   }
 
@@ -658,24 +1286,36 @@ function renameGroup(continentId, groupId) {
    TEAM CREATION
 ========================================================= */
 
-function selectGroupForTeam(continentId) {
-  const continent = state.continents[continentId];
+function selectGroupForTeam(
+  continentId
+) {
+  const continent =
+    state.continents[continentId];
 
-  if (!continent || continent.groups.length === 0) {
-    alert("Create a group before adding a team.");
+  if (
+    !continent ||
+    continent.groups.length === 0
+  ) {
+    alert(
+      "Create a group before adding a team."
+    );
+
     return null;
   }
 
-  if (continent.groups.length === 1) {
+  if (
+    continent.groups.length === 1
+  ) {
     return continent.groups[0];
   }
 
-  const groupOptions = continent.groups
-    .map(
-      (group, index) =>
-        `${index + 1}. ${group.name}`
-    )
-    .join("\n");
+  const groupOptions =
+    continent.groups
+      .map(
+        (group, index) =>
+          `${index + 1}. ${group.name}`
+      )
+      .join("\n");
 
   const selection = prompt(
     `Which group should receive the team?\n\n${groupOptions}`,
@@ -686,22 +1326,35 @@ function selectGroupForTeam(continentId) {
     return null;
   }
 
-  const selectedIndex = Number(selection) - 1;
+  const selectedIndex =
+    Number(selection) - 1;
 
   if (
-    !Number.isInteger(selectedIndex) ||
+    !Number.isInteger(
+      selectedIndex
+    ) ||
     selectedIndex < 0 ||
-    selectedIndex >= continent.groups.length
+    selectedIndex >=
+      continent.groups.length
   ) {
-    alert("That group selection was not valid.");
+    alert(
+      "That group selection was not valid."
+    );
+
     return null;
   }
 
-  return continent.groups[selectedIndex];
+  return continent.groups[
+    selectedIndex
+  ];
 }
 
-function addTeam(continentId, chosenGroupId = null) {
-  const continent = state.continents[continentId];
+function addTeam(
+  continentId,
+  chosenGroupId = null
+) {
+  const continent =
+    state.continents[continentId];
 
   if (!continent) {
     return;
@@ -710,9 +1363,15 @@ function addTeam(continentId, chosenGroupId = null) {
   let group = null;
 
   if (chosenGroupId) {
-    group = findGroup(continentId, chosenGroupId);
+    group = findGroup(
+      continentId,
+      chosenGroupId
+    );
   } else {
-    group = selectGroupForTeam(continentId);
+    group =
+      selectGroupForTeam(
+        continentId
+      );
   }
 
   if (!group) {
@@ -727,14 +1386,22 @@ function addTeam(continentId, chosenGroupId = null) {
     return;
   }
 
-  const teamName = normaliseTeamName(enteredName);
+  const teamName =
+    normaliseTeamName(
+      enteredName
+    );
 
   if (!teamName) {
     return;
   }
 
-  if (teamAlreadyExists(teamName)) {
-    alert(`${teamName} has already been added.`);
+  if (
+    teamAlreadyExists(teamName)
+  ) {
+    alert(
+      `${teamName} has already been added.`
+    );
+
     return;
   }
 
@@ -749,14 +1416,25 @@ function addTeam(continentId, chosenGroupId = null) {
   renderEverything();
 }
 
-function removeTeam(continentId, groupId, teamId) {
-  const group = findGroup(continentId, groupId);
+function removeTeam(
+  continentId,
+  groupId,
+  teamId
+) {
+  const group =
+    findGroup(
+      continentId,
+      groupId
+    );
 
   if (!group) {
     return;
   }
 
-  const team = group.teams.find(item => item.id === teamId);
+  const team =
+    group.teams.find(
+      item => item.id === teamId
+    );
 
   if (!team) {
     return;
@@ -770,45 +1448,77 @@ function removeTeam(continentId, groupId, teamId) {
     return;
   }
 
-  group.teams = group.teams.filter(
-    item => item.id !== teamId
-  );
+  group.teams =
+    group.teams.filter(
+      item => item.id !== teamId
+    );
 
   group.results = {};
 
-  removeQualifiedTeam(teamId, false);
+  removeQualifiedTeam(
+    teamId,
+    false
+  );
+
+  if (
+    selectedSwapTeam?.teamId ===
+    teamId
+  ) {
+    selectedSwapTeam = null;
+  }
+
   state.finalDraw = {};
 
   saveState();
   renderEverything();
 }
 
-function moveTeam(continentId, groupId, teamId) {
-  const currentGroup = findGroup(continentId, groupId);
-  const continent = state.continents[continentId];
+function moveTeam(
+  continentId,
+  groupId,
+  teamId
+) {
+  const currentGroup =
+    findGroup(
+      continentId,
+      groupId
+    );
 
-  if (!currentGroup || continent.groups.length < 2) {
-    alert("Create another group before moving this team.");
+  const continent =
+    state.continents[continentId];
+
+  if (
+    !currentGroup ||
+    continent.groups.length < 2
+  ) {
+    alert(
+      "Create another group before moving this team."
+    );
+
     return;
   }
 
-  const team = currentGroup.teams.find(
-    item => item.id === teamId
-  );
+  const team =
+    currentGroup.teams.find(
+      item => item.id === teamId
+    );
 
   if (!team) {
     return;
   }
 
-  const otherGroups = continent.groups.filter(
-    group => group.id !== groupId
-  );
+  const otherGroups =
+    continent.groups.filter(
+      group => group.id !== groupId
+    );
 
-  const options = otherGroups
-    .map(
-      (group, index) => `${index + 1}. ${group.name}`
-    )
-    .join("\n");
+  const options =
+    otherGroups
+      .map(
+        (group, index) =>
+          `${index + 1}. ${group.name}`
+      )
+      .join("\n");
 
   const selection = prompt(
     `Move ${team.name} to which group?\n\n${options}`,
@@ -819,22 +1529,32 @@ function moveTeam(continentId, groupId, teamId) {
     return;
   }
 
-  const selectedIndex = Number(selection) - 1;
-  const newGroup = otherGroups[selectedIndex];
+  const selectedIndex =
+    Number(selection) - 1;
+
+  const newGroup =
+    otherGroups[selectedIndex];
 
   if (!newGroup) {
-    alert("That group selection was not valid.");
+    alert(
+      "That group selection was not valid."
+    );
+
     return;
   }
 
-  currentGroup.teams = currentGroup.teams.filter(
-    item => item.id !== teamId
-  );
+  currentGroup.teams =
+    currentGroup.teams.filter(
+      item => item.id !== teamId
+    );
 
   currentGroup.results = {};
 
   newGroup.teams.push(team);
   newGroup.results = {};
+
+  selectedSwapTeam = null;
+  state.finalDraw = {};
 
   saveState();
   renderEverything();
@@ -845,15 +1565,32 @@ function moveTeam(continentId, groupId, teamId) {
    FIXTURES
 ========================================================= */
 
-function createGroupFixtures(group) {
+function createGroupFixtures(
+  group
+) {
   const fixtures = [];
 
-  for (let i = 0; i < group.teams.length; i++) {
-    for (let j = i + 1; j < group.teams.length; j++) {
+  for (
+    let firstIndex = 0;
+    firstIndex <
+      group.teams.length;
+    firstIndex++
+  ) {
+    for (
+      let secondIndex =
+        firstIndex + 1;
+      secondIndex <
+        group.teams.length;
+      secondIndex++
+    ) {
       fixtures.push({
-        id: `${group.teams[i].id}-${group.teams[j].id}`,
-        home: group.teams[i],
-        away: group.teams[j]
+        id:
+          `${group.teams[firstIndex].id}-` +
+          `${group.teams[secondIndex].id}`,
+        home:
+          group.teams[firstIndex],
+        away:
+          group.teams[secondIndex]
       });
     }
   }
@@ -868,7 +1605,11 @@ function updateGroupScore(
   side,
   value
 ) {
-  const group = findGroup(continentId, groupId);
+  const group =
+    findGroup(
+      continentId,
+      groupId
+    );
 
   if (!group) {
     return;
@@ -878,15 +1619,23 @@ function updateGroupScore(
     group.results = {};
   }
 
-  if (!group.results[fixtureId]) {
+  if (
+    !group.results[fixtureId]
+  ) {
     group.results[fixtureId] = {
       home: "",
       away: ""
     };
   }
 
-  group.results[fixtureId][side] =
-    value === "" ? "" : Math.max(0, Number(value));
+  group
+    .results[fixtureId][side] =
+    value === ""
+      ? ""
+      : Math.max(
+          0,
+          Number(value)
+        );
 
   saveState();
   renderEverything();
@@ -912,44 +1661,70 @@ function createBlankStats(team) {
   };
 }
 
-function sortTableTeams(teamA, teamB) {
+function sortTableTeams(
+  teamA,
+  teamB
+) {
   return (
-    teamB.points - teamA.points ||
-    teamB.gd - teamA.gd ||
-    teamB.gf - teamA.gf ||
-    teamA.name.localeCompare(teamB.name)
+    teamB.points -
+      teamA.points ||
+    teamB.gd -
+      teamA.gd ||
+    teamB.gf -
+      teamA.gf ||
+    teamA.name.localeCompare(
+      teamB.name
+    )
   );
 }
 
-function calculateGroupTable(group) {
+function calculateGroupTable(
+  group
+) {
   const table = {};
 
   group.teams.forEach(team => {
-    table[team.id] = createBlankStats(team);
+    table[team.id] =
+      createBlankStats(team);
   });
 
-  const fixtures = createGroupFixtures(group);
+  const fixtures =
+    createGroupFixtures(group);
 
   fixtures.forEach(fixture => {
-    const result = group.results?.[fixture.id];
+    const result =
+      group.results?.[
+        fixture.id
+      ];
 
     if (
       !result ||
       result.home === "" ||
       result.away === "" ||
-      result.home === undefined ||
-      result.away === undefined
+      result.home ===
+        undefined ||
+      result.away ===
+        undefined
     ) {
       return;
     }
 
-    const homeGoals = Number(result.home);
-    const awayGoals = Number(result.away);
+    const homeGoals =
+      Number(result.home);
 
-    const homeStats = table[fixture.home.id];
-    const awayStats = table[fixture.away.id];
+    const awayGoals =
+      Number(result.away);
 
-    if (!homeStats || !awayStats) {
+    const homeStats =
+      table[fixture.home.id];
+
+    const awayStats =
+      table[fixture.away.id];
+
+    if (
+      !homeStats ||
+      !awayStats
+    ) {
       return;
     }
 
@@ -962,11 +1737,15 @@ function calculateGroupTable(group) {
     awayStats.gf += awayGoals;
     awayStats.ga += homeGoals;
 
-    if (homeGoals > awayGoals) {
+    if (
+      homeGoals > awayGoals
+    ) {
       homeStats.won += 1;
       homeStats.points += 3;
       awayStats.lost += 1;
-    } else if (awayGoals > homeGoals) {
+    } else if (
+      awayGoals > homeGoals
+    ) {
       awayStats.won += 1;
       awayStats.points += 3;
       homeStats.lost += 1;
@@ -978,11 +1757,18 @@ function calculateGroupTable(group) {
       awayStats.points += 1;
     }
 
-    homeStats.gd = homeStats.gf - homeStats.ga;
-    awayStats.gd = awayStats.gf - awayStats.ga;
+    homeStats.gd =
+      homeStats.gf -
+      homeStats.ga;
+
+    awayStats.gd =
+      awayStats.gf -
+      awayStats.ga;
   });
 
-  return Object.values(table).sort(sortTableTeams);
+  return Object
+    .values(table)
+    .sort(sortTableTeams);
 }
 
 
@@ -990,31 +1776,45 @@ function calculateGroupTable(group) {
    QUALIFICATION
 ========================================================= */
 
-function isTeamQualified(teamId) {
-  return state.qualifiedTeams.some(
-    team => team.id === teamId
-  );
+function isTeamQualified(
+  teamId
+) {
+  return state
+    .qualifiedTeams
+    .some(
+      team => team.id === teamId
+    );
 }
 
 function qualifyTeam(teamId) {
-  if (state.qualifiedTeams.length >= TOURNAMENT_SIZE) {
+  if (
+    state.qualifiedTeams.length >=
+    TOURNAMENT_SIZE
+  ) {
     alert(
       "All 64 tournament places have already been filled."
     );
+
     return;
   }
 
-  const found = findTeam(teamId);
+  const found =
+    findTeam(teamId);
 
-  if (!found || isTeamQualified(teamId)) {
+  if (
+    !found ||
+    isTeamQualified(teamId)
+  ) {
     return;
   }
 
   state.qualifiedTeams.push({
     id: found.team.id,
     name: found.team.name,
-    continent: found.continentId,
-    status: `${found.group.name} qualifier`,
+    continent:
+      found.continentId,
+    status:
+      `${found.group.name} qualifier`,
     automatic: false
   });
 
@@ -1024,10 +1824,16 @@ function qualifyTeam(teamId) {
   renderEverything();
 }
 
-function removeQualifiedTeam(teamId, shouldRender = true) {
-  state.qualifiedTeams = state.qualifiedTeams.filter(
-    team => team.automatic || team.id !== teamId
-  );
+function removeQualifiedTeam(
+  teamId,
+  shouldRender = true
+) {
+  state.qualifiedTeams =
+    state.qualifiedTeams.filter(
+      team =>
+        team.automatic ||
+        team.id !== teamId
+    );
 
   state.finalDraw = {};
 
@@ -1037,35 +1843,47 @@ function removeQualifiedTeam(teamId, shouldRender = true) {
   }
 }
 
-function toggleQualification(teamId) {
-  if (isTeamQualified(teamId)) {
+function toggleQualification(
+  teamId
+) {
+  if (
+    isTeamQualified(teamId)
+  ) {
     removeQualifiedTeam(teamId);
   } else {
     qualifyTeam(teamId);
   }
 }
-
-
 /* =========================================================
    GROUP RENDERING
 ========================================================= */
 
-function renderContinentGroups(continentId) {
-  const container = document.getElementById(
-    `${continentId}Groups`
-  );
+function renderContinentGroups(
+  continentId
+) {
+  const container =
+    document.getElementById(
+      `${continentId}Groups`
+    );
 
   if (!container) {
     return;
   }
 
-  const continent = state.continents[continentId];
+  const continent =
+    state.continents[continentId];
+
   container.innerHTML = "";
 
-  if (!continent || continent.groups.length === 0) {
+  if (
+    !continent ||
+    continent.groups.length === 0
+  ) {
     container.innerHTML = `
       <div class="empty-state">
-        <span class="empty-state-icon">⚽</span>
+        <span class="empty-state-icon">
+          ⚽
+        </span>
 
         <p>
           No ${escapeHTML(
@@ -1087,237 +1905,346 @@ function renderContinentGroups(continentId) {
     return;
   }
 
-  continent.groups.forEach(group => {
-    const table = calculateGroupTable(group);
-    const fixtures = createGroupFixtures(group);
+  continent.groups.forEach(
+    group => {
+      const table =
+        calculateGroupTable(group);
 
-    const groupCard = document.createElement("article");
-    groupCard.className = "group-table";
+      const fixtures =
+        createGroupFixtures(group);
 
-    groupCard.innerHTML = `
-      <div class="group-heading">
-        <h3>${escapeHTML(group.name)}</h3>
+      const groupCard =
+        document.createElement(
+          "article"
+        );
 
-        <div class="stage-actions">
-          <button
-            type="button"
-            class="secondary-btn"
-            data-action="rename-group"
-            data-continent="${continentId}"
-            data-group="${group.id}"
-          >
-            Rename
-          </button>
+      groupCard.className =
+        "group-table";
 
-          <button
-            type="button"
-            class="secondary-btn"
-            data-action="add-team"
-            data-continent="${continentId}"
-            data-group="${group.id}"
-          >
-            Add Team
-          </button>
+      groupCard.innerHTML = `
+        <div class="group-heading">
+          <h3>
+            ${escapeHTML(group.name)}
+          </h3>
 
-          <button
-            type="button"
-            class="danger-btn"
-            data-action="remove-group"
-            data-continent="${continentId}"
-            data-group="${group.id}"
-          >
-            Delete
-          </button>
+          <div class="stage-actions">
+            <button
+              type="button"
+              class="secondary-btn"
+              data-action="rename-group"
+              data-continent="${continentId}"
+              data-group="${group.id}"
+            >
+              Rename
+            </button>
+
+            <button
+              type="button"
+              class="secondary-btn"
+              data-action="add-team"
+              data-continent="${continentId}"
+              data-group="${group.id}"
+            >
+              Add Team
+            </button>
+
+            <button
+              type="button"
+              class="danger-btn"
+              data-action="remove-group"
+              data-continent="${continentId}"
+              data-group="${group.id}"
+            >
+              Delete
+            </button>
+          </div>
         </div>
-      </div>
 
-      ${
-        group.teams.length === 0
-          ? `
-            <div class="empty-state">
-              <p>No teams have been added to this group.</p>
-            </div>
-          `
-          : `
-            <div class="table-wrapper">
-              <table>
-                <thead>
-                  <tr>
-                    <th>Pos</th>
-                    <th>Team</th>
-                    <th>P</th>
-                    <th>W</th>
-                    <th>D</th>
-                    <th>L</th>
-                    <th>GF</th>
-                    <th>GA</th>
-                    <th>GD</th>
-                    <th>Pts</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-
-                <tbody>
-                  ${table
-                    .map((team, index) => {
-                      const qualified = isTeamQualified(team.id);
-
-                      return `
-                        <tr class="${
-                          qualified
-                            ? "qualifies-directly"
-                            : ""
-                        }">
-                          <td>${index + 1}</td>
-
-                          <td>
-                            ${teamWithFlag(team.name)}
-                          </td>
-
-                          <td>${team.played}</td>
-                          <td>${team.won}</td>
-                          <td>${team.drawn}</td>
-                          <td>${team.lost}</td>
-                          <td>${team.gf}</td>
-                          <td>${team.ga}</td>
-                          <td>${team.gd}</td>
-                          <td>
-                            <strong>${team.points}</strong>
-                          </td>
-
-                          <td>
-                            ${
-                              qualified
-                                ? '<span class="badge">Qualified</span>'
-                                : "Not qualified"
-                            }
-                          </td>
-
-                          <td>
-                            <button
-                              type="button"
-                              class="${
-                                qualified
-                                  ? "danger-btn"
-                                  : "primary-btn"
-                              }"
-                              data-action="toggle-qualified"
-                              data-team="${team.id}"
-                            >
-                              ${
-                                qualified
-                                  ? "Remove"
-                                  : "Qualify"
-                              }
-                            </button>
-
-                            <button
-                              type="button"
-                              class="secondary-btn"
-                              data-action="move-team"
-                              data-continent="${continentId}"
-                              data-group="${group.id}"
-                              data-team="${team.id}"
-                            >
-                              Move
-                            </button>
-
-                            <button
-                              type="button"
-                              class="danger-btn"
-                              data-action="remove-team"
-                              data-continent="${continentId}"
-                              data-group="${group.id}"
-                              data-team="${team.id}"
-                            >
-                              Delete
-                            </button>
-                          </td>
-                        </tr>
-                      `;
-                    })
-                    .join("")}
-                </tbody>
-              </table>
-            </div>
-
-            <div class="position-key">
-              <span class="key-item">
-                <span class="key-colour key-direct"></span>
-                Qualified for World Cup
-              </span>
-            </div>
-          `
-      }
-
-      ${
-        fixtures.length === 0
-          ? ""
-          : `
-            <div class="section-header">
-              <div>
-                <p class="eyebrow">Group Matches</p>
-                <h3>Fixtures</h3>
+        ${
+          group.teams.length === 0
+            ? `
+              <div class="empty-state">
+                <p>
+                  No teams have been added to this group.
+                </p>
               </div>
-            </div>
+            `
+            : `
+              <div class="table-wrapper">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Pos</th>
+                      <th>Team</th>
+                      <th>P</th>
+                      <th>W</th>
+                      <th>D</th>
+                      <th>L</th>
+                      <th>GF</th>
+                      <th>GA</th>
+                      <th>GD</th>
+                      <th>Pts</th>
+                      <th>Status</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
 
-            <div class="fixtures-list">
-              ${fixtures
-                .map(fixture => {
-                  const result =
-                    group.results?.[fixture.id] || {};
+                  <tbody>
+                    ${table
+                      .map(
+                        (
+                          team,
+                          index
+                        ) => {
+                          const qualified =
+                            isTeamQualified(
+                              team.id
+                            );
 
-                  return `
-                    <div class="fixture">
-                      <div class="fixture-group">
-                        ${escapeHTML(group.name)}
+                          const selectedForSwap =
+                            selectedSwapTeam
+                              ?.teamId ===
+                            team.id;
+
+                          const rowClasses = [
+                            qualified
+                              ? "qualifies-directly"
+                              : "",
+                            selectedForSwap
+                              ? "swap-selected"
+                              : ""
+                          ]
+                            .filter(Boolean)
+                            .join(" ");
+
+                          return `
+                            <tr
+                              class="${rowClasses}"
+                            >
+                              <td>
+                                ${index + 1}
+                              </td>
+
+                              <td>
+                                ${teamWithFlag(
+                                  team.name
+                                )}
+                              </td>
+
+                              <td>
+                                ${team.played}
+                              </td>
+
+                              <td>
+                                ${team.won}
+                              </td>
+
+                              <td>
+                                ${team.drawn}
+                              </td>
+
+                              <td>
+                                ${team.lost}
+                              </td>
+
+                              <td>
+                                ${team.gf}
+                              </td>
+
+                              <td>
+                                ${team.ga}
+                              </td>
+
+                              <td>
+                                ${team.gd}
+                              </td>
+
+                              <td>
+                                <strong>
+                                  ${team.points}
+                                </strong>
+                              </td>
+
+                              <td>
+                                ${
+                                  qualified
+                                    ? `
+                                      <span class="badge">
+                                        Qualified
+                                      </span>
+                                    `
+                                    : "Not qualified"
+                                }
+                              </td>
+
+                              <td>
+                                <button
+                                  type="button"
+                                  class="${
+                                    qualified
+                                      ? "danger-btn"
+                                      : "primary-btn"
+                                  }"
+                                  data-action="toggle-qualified"
+                                  data-team="${team.id}"
+                                >
+                                  ${
+                                    qualified
+                                      ? "Remove"
+                                      : "Qualify"
+                                  }
+                                </button>
+
+                                <button
+                                  type="button"
+                                  class="secondary-btn"
+                                  data-action="swap-team"
+                                  data-continent="${continentId}"
+                                  data-team="${team.id}"
+                                >
+                                  ${
+                                    selectedForSwap
+                                      ? "Cancel Swap"
+                                      : "Swap"
+                                  }
+                                </button>
+
+                                <button
+                                  type="button"
+                                  class="secondary-btn"
+                                  data-action="move-team"
+                                  data-continent="${continentId}"
+                                  data-group="${group.id}"
+                                  data-team="${team.id}"
+                                >
+                                  Move
+                                </button>
+
+                                <button
+                                  type="button"
+                                  class="danger-btn"
+                                  data-action="remove-team"
+                                  data-continent="${continentId}"
+                                  data-group="${group.id}"
+                                  data-team="${team.id}"
+                                >
+                                  Delete
+                                </button>
+                              </td>
+                            </tr>
+                          `;
+                        }
+                      )
+                      .join("")}
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="position-key">
+                <span class="key-item">
+                  <span
+                    class="key-colour key-direct"
+                  ></span>
+
+                  Qualified for World Cup
+                </span>
+
+                <span class="key-item">
+                  <span
+                    class="key-colour key-swap"
+                  ></span>
+
+                  Selected for swapping
+                </span>
+              </div>
+            `
+        }
+
+        ${
+          fixtures.length === 0
+            ? ""
+            : `
+              <div class="section-header">
+                <div>
+                  <p class="eyebrow">
+                    Group Matches
+                  </p>
+
+                  <h3>Fixtures</h3>
+                </div>
+              </div>
+
+              <div class="fixtures-list">
+                ${fixtures
+                  .map(fixture => {
+                    const result =
+                      group.results?.[
+                        fixture.id
+                      ] || {};
+
+                    return `
+                      <div class="fixture">
+                        <div class="fixture-group">
+                          ${escapeHTML(
+                            group.name
+                          )}
+                        </div>
+
+                        <div class="home">
+                          ${teamWithFlag(
+                            fixture.home.name
+                          )}
+                        </div>
+
+                        <input
+                          type="number"
+                          min="0"
+                          class="score-input"
+                          value="${
+                            result.home ?? ""
+                          }"
+                          data-action="group-score"
+                          data-continent="${continentId}"
+                          data-group="${group.id}"
+                          data-fixture="${fixture.id}"
+                          data-side="home"
+                        >
+
+                        <span>-</span>
+
+                        <input
+                          type="number"
+                          min="0"
+                          class="score-input"
+                          value="${
+                            result.away ?? ""
+                          }"
+                          data-action="group-score"
+                          data-continent="${continentId}"
+                          data-group="${group.id}"
+                          data-fixture="${fixture.id}"
+                          data-side="away"
+                        >
+
+                        <div class="away">
+                          ${teamWithFlag(
+                            fixture.away.name
+                          )}
+                        </div>
                       </div>
+                    `;
+                  })
+                  .join("")}
+              </div>
+            `
+        }
+      `;
 
-                      <div class="home">
-                        ${teamWithFlag(fixture.home.name)}
-                      </div>
-
-                      <input
-                        type="number"
-                        min="0"
-                        class="score-input"
-                        value="${result.home ?? ""}"
-                        data-action="group-score"
-                        data-continent="${continentId}"
-                        data-group="${group.id}"
-                        data-fixture="${fixture.id}"
-                        data-side="home"
-                      >
-
-                      <span>-</span>
-
-                      <input
-                        type="number"
-                        min="0"
-                        class="score-input"
-                        value="${result.away ?? ""}"
-                        data-action="group-score"
-                        data-continent="${continentId}"
-                        data-group="${group.id}"
-                        data-fixture="${fixture.id}"
-                        data-side="away"
-                      >
-
-                      <div class="away">
-                        ${teamWithFlag(fixture.away.name)}
-                      </div>
-                    </div>
-                  `;
-                })
-                .join("")}
-            </div>
-          `
-      }
-    `;
-
-    container.appendChild(groupCard);
-  });
+      container.appendChild(
+        groupCard
+      );
+    }
+  );
 }
 
 
@@ -1326,28 +2253,46 @@ function renderContinentGroups(continentId) {
 ========================================================= */
 
 function renderContinentStatistics() {
-  Object.entries(state.continents).forEach(
-    ([continentId, continent]) => {
-      const groupCountElement = document.getElementById(
-        `${continentId}GroupCount`
-      );
+  Object.entries(
+    state.continents
+  ).forEach(
+    (
+      [
+        continentId,
+        continent
+      ]
+    ) => {
+      const groupCountElement =
+        document.getElementById(
+          `${continentId}GroupCount`
+        );
 
-      const teamCountElement = document.getElementById(
-        `${continentId}TeamCount`
-      );
+      const teamCountElement =
+        document.getElementById(
+          `${continentId}TeamCount`
+        );
 
-      const qualifiedCountElement = document.getElementById(
-        `${continentId}QualifiedCount`
-      );
+      const qualifiedCountElement =
+        document.getElementById(
+          `${continentId}QualifiedCount`
+        );
 
-      const teamCount = continent.groups.reduce(
-        (total, group) => total + group.teams.length,
-        0
-      );
+      const teamCount =
+        continent.groups.reduce(
+          (
+            total,
+            group
+          ) =>
+            total +
+            group.teams.length,
+          0
+        );
 
       const continentQualifiedCount =
         state.qualifiedTeams.filter(
-          team => team.continent === continentId
+          team =>
+            team.continent ===
+            continentId
         ).length;
 
       if (groupCountElement) {
@@ -1356,10 +2301,13 @@ function renderContinentStatistics() {
       }
 
       if (teamCountElement) {
-        teamCountElement.textContent = teamCount;
+        teamCountElement.textContent =
+          teamCount;
       }
 
-      if (qualifiedCountElement) {
+      if (
+        qualifiedCountElement
+      ) {
         qualifiedCountElement.textContent =
           continentQualifiedCount;
       }
@@ -1378,22 +2326,30 @@ function renderQualifiedTeams() {
   }
 
   const selectedContinent =
-    qualifiedContinentFilter?.value || "all";
+    qualifiedContinentFilter
+      ?.value || "all";
 
-  const teams = state.qualifiedTeams.filter(team => {
-    return (
-      selectedContinent === "all" ||
-      team.continent === selectedContinent
+  const teams =
+    state.qualifiedTeams.filter(
+      team =>
+        selectedContinent ===
+          "all" ||
+        team.continent ===
+          selectedContinent
     );
-  });
 
   qualifiedList.innerHTML = "";
 
   if (teams.length === 0) {
     qualifiedList.innerHTML = `
       <div class="empty-state">
-        <span class="empty-state-icon">🏳️</span>
-        <p>No qualified teams match this filter.</p>
+        <span class="empty-state-icon">
+          🏳️
+        </span>
+
+        <p>
+          No qualified teams match this filter.
+        </p>
       </div>
     `;
 
@@ -1401,27 +2357,49 @@ function renderQualifiedTeams() {
   }
 
   teams
-    .sort((teamA, teamB) =>
-      teamA.name.localeCompare(teamB.name)
+    .sort(
+      (
+        teamA,
+        teamB
+      ) =>
+        teamA.name.localeCompare(
+          teamB.name
+        )
     )
     .forEach(team => {
-      const card = document.createElement("article");
+      const card =
+        document.createElement(
+          "article"
+        );
 
-      card.className = `qualified-card ${
-        team.automatic ? "host-qualified" : ""
-      }`;
+      card.className =
+        `qualified-card ${
+          team.automatic
+            ? "host-qualified"
+            : ""
+        }`;
 
       card.innerHTML = `
         <span class="badge">
-          ${escapeHTML(team.status)}
+          ${escapeHTML(
+            team.status
+          )}
         </span>
 
         <h3>
-          ${teamWithFlag(team.name)}
+          ${teamWithFlag(
+            team.name
+          )}
         </h3>
 
-        <span class="confederation-badge">
-          ${continentCodes[team.continent] || ""}
+        <span
+          class="confederation-badge"
+        >
+          ${
+            continentCodes[
+              team.continent
+            ] || "Playoff"
+          }
         </span>
 
         ${
@@ -1440,7 +2418,9 @@ function renderQualifiedTeams() {
         }
       `;
 
-      qualifiedList.appendChild(card);
+      qualifiedList.appendChild(
+        card
+      );
     });
 }
 
@@ -1450,18 +2430,24 @@ function renderQualifiedTeams() {
 ========================================================= */
 
 function renderSummary() {
-  const totalQualified = state.qualifiedTeams.length;
-  const placesRemaining = Math.max(
-    0,
-    TOURNAMENT_SIZE - totalQualified
-  );
+  const totalQualified =
+    state.qualifiedTeams.length;
+
+  const placesRemaining =
+    Math.max(
+      0,
+      TOURNAMENT_SIZE -
+        totalQualified
+    );
 
   if (qualifiedCount) {
-    qualifiedCount.textContent = totalQualified;
+    qualifiedCount.textContent =
+      totalQualified;
   }
 
   if (remainingPlaces) {
-    remainingPlaces.textContent = placesRemaining;
+    remainingPlaces.textContent =
+      placesRemaining;
   }
 }
 
@@ -1484,95 +2470,221 @@ function addPlayoffMatch() {
   renderEverything();
 }
 
-function removePlayoffMatch(matchId) {
-  state.playoffMatches = state.playoffMatches.filter(
-    match => match.id !== matchId
-  );
+function removePlayoffMatch(
+  matchId
+) {
+  const match =
+    state.playoffMatches.find(
+      item =>
+        item.id === matchId
+    );
+
+  if (match?.winner) {
+    const qualifiedWinner =
+      state.qualifiedTeams.find(
+        team =>
+          !team.automatic &&
+          team.status ===
+            "Intercontinental Playoff Winner" &&
+          team.name ===
+            match.winner
+      );
+
+    if (qualifiedWinner) {
+      removeQualifiedTeam(
+        qualifiedWinner.id,
+        false
+      );
+    }
+  }
+
+  state.playoffMatches =
+    state.playoffMatches.filter(
+      match =>
+        match.id !== matchId
+    );
+
+  state.finalDraw = {};
 
   saveState();
   renderEverything();
 }
 
-function updatePlayoffMatch(matchId, field, value) {
-  const match = state.playoffMatches.find(
-    item => item.id === matchId
-  );
+function updatePlayoffMatch(
+  matchId,
+  field,
+  value
+) {
+  const match =
+    state.playoffMatches.find(
+      item =>
+        item.id === matchId
+    );
 
   if (!match) {
     return;
   }
 
-  if (field === "homeScore" || field === "awayScore") {
+  if (
+    field === "homeScore" ||
+    field === "awayScore"
+  ) {
     match[field] =
-      value === "" ? "" : Math.max(0, Number(value));
+      value === ""
+        ? ""
+        : Math.max(
+            0,
+            Number(value)
+          );
   } else {
     match[field] = value;
   }
 
+  if (match.winner) {
+    match.winner = "";
+  }
+
+  state.finalDraw = {};
+
   saveState();
   renderEverything();
 }
 
-function qualifyPlayoffWinner(matchId) {
-  const match = state.playoffMatches.find(
-    item => item.id === matchId
-  );
+function qualifyPlayoffWinner(
+  matchId
+) {
+  const match =
+    state.playoffMatches.find(
+      item =>
+        item.id === matchId
+    );
 
   if (!match) {
     return;
   }
 
-  const homeScore = Number(match.homeScore);
-  const awayScore = Number(match.awayScore);
+  const homeTeam =
+    normaliseTeamName(
+      match.homeTeam
+    );
+
+  const awayTeam =
+    normaliseTeamName(
+      match.awayTeam
+    );
+
+  if (
+    !homeTeam ||
+    !awayTeam
+  ) {
+    alert(
+      "Enter both playoff countries first."
+    );
+
+    return;
+  }
+
+  if (
+    homeTeam.toLowerCase() ===
+    awayTeam.toLowerCase()
+  ) {
+    alert(
+      "The two playoff countries must be different."
+    );
+
+    return;
+  }
 
   if (
     match.homeScore === "" ||
     match.awayScore === ""
   ) {
-    alert("Enter both playoff scores first.");
+    alert(
+      "Enter both playoff scores first."
+    );
+
     return;
   }
 
-  if (homeScore === awayScore) {
+  const homeScore =
+    Number(match.homeScore);
+
+  const awayScore =
+    Number(match.awayScore);
+
+  if (
+    !Number.isFinite(
+      homeScore
+    ) ||
+    !Number.isFinite(
+      awayScore
+    )
+  ) {
+    alert(
+      "Enter valid playoff scores."
+    );
+
+    return;
+  }
+
+  if (
+    homeScore === awayScore
+  ) {
     alert(
       "The playoff cannot finish level. Enter a winning score."
     );
+
     return;
   }
 
   const winner =
     homeScore > awayScore
-      ? normaliseTeamName(match.homeTeam)
-      : normaliseTeamName(match.awayTeam);
+      ? homeTeam
+      : awayTeam;
 
-  if (!winner) {
-    alert("Enter both playoff countries first.");
-    return;
-  }
-
-  const existingTeam = state.qualifiedTeams.some(
-    team => team.name.toLowerCase() === winner.toLowerCase()
-  );
+  const existingTeam =
+    state.qualifiedTeams.some(
+      team =>
+        team.name.toLowerCase() ===
+        winner.toLowerCase()
+    );
 
   if (existingTeam) {
-    alert(`${winner} is already qualified.`);
+    alert(
+      `${winner} is already qualified.`
+    );
+
     return;
   }
 
-  if (state.qualifiedTeams.length >= TOURNAMENT_SIZE) {
-    alert("All 64 tournament places are already filled.");
+  if (
+    state.qualifiedTeams.length >=
+    TOURNAMENT_SIZE
+  ) {
+    alert(
+      "All 64 tournament places are already filled."
+    );
+
     return;
   }
+
+  const winnerId =
+    generateId(
+      "playoff-winner"
+    );
 
   state.qualifiedTeams.push({
-    id: generateId("playoff-winner"),
+    id: winnerId,
     name: winner,
     continent: "playoff",
-    status: "Intercontinental Playoff Winner",
+    status:
+      "Intercontinental Playoff Winner",
     automatic: false
   });
 
   match.winner = winner;
+  match.winnerId = winnerId;
+
   state.finalDraw = {};
 
   saveState();
@@ -1586,104 +2698,134 @@ function renderPlayoffs() {
 
   playoffGrid.innerHTML = "";
 
-  if (state.playoffMatches.length === 0) {
+  if (
+    state.playoffMatches.length ===
+    0
+  ) {
     playoffGrid.innerHTML = `
       <div class="empty-state">
-        <span class="empty-state-icon">🏟️</span>
-        <p>No intercontinental playoff matches have been created.</p>
+        <span class="empty-state-icon">
+          🏟️
+        </span>
+
+        <p>
+          No intercontinental playoff matches have been created.
+        </p>
       </div>
     `;
 
     return;
   }
 
-  state.playoffMatches.forEach((match, index) => {
-    const card = document.createElement("article");
-    card.className = "playoff-card";
+  state.playoffMatches.forEach(
+    (
+      match,
+      index
+    ) => {
+      const card =
+        document.createElement(
+          "article"
+        );
 
-    card.innerHTML = `
-      <div class="section-header">
-        <h3>Playoff ${index + 1}</h3>
+      card.className =
+        "playoff-card";
 
-        <button
-          type="button"
-          class="danger-btn"
-          data-action="remove-playoff"
-          data-match="${match.id}"
-        >
-          Delete
-        </button>
-      </div>
+      card.innerHTML = `
+        <div class="section-header">
+          <h3>
+            Playoff ${index + 1}
+          </h3>
 
-      <div class="playoff-team">
-        <input
-          type="text"
-          class="team-input"
-          placeholder="First country"
-          value="${escapeHTML(match.homeTeam)}"
-          data-action="playoff-input"
-          data-match="${match.id}"
-          data-field="homeTeam"
-        >
+          <button
+            type="button"
+            class="danger-btn"
+            data-action="remove-playoff"
+            data-match="${match.id}"
+          >
+            Delete
+          </button>
+        </div>
 
-        <input
-          type="number"
-          min="0"
-          class="playoff-score"
-          value="${match.homeScore}"
-          data-action="playoff-input"
-          data-match="${match.id}"
-          data-field="homeScore"
-        >
-      </div>
+        <div class="playoff-team">
+          <input
+            type="text"
+            class="team-input"
+            placeholder="First country"
+            value="${escapeHTML(
+              match.homeTeam
+            )}"
+            data-action="playoff-input"
+            data-match="${match.id}"
+            data-field="homeTeam"
+          >
 
-      <div class="playoff-team">
-        <input
-          type="text"
-          class="team-input"
-          placeholder="Second country"
-          value="${escapeHTML(match.awayTeam)}"
-          data-action="playoff-input"
-          data-match="${match.id}"
-          data-field="awayTeam"
-        >
+          <input
+            type="number"
+            min="0"
+            class="playoff-score"
+            value="${
+              match.homeScore
+            }"
+            data-action="playoff-input"
+            data-match="${match.id}"
+            data-field="homeScore"
+          >
+        </div>
 
-        <input
-          type="number"
-          min="0"
-          class="playoff-score"
-          value="${match.awayScore}"
-          data-action="playoff-input"
-          data-match="${match.id}"
-          data-field="awayScore"
-        >
-      </div>
+        <div class="playoff-team">
+          <input
+            type="text"
+            class="team-input"
+            placeholder="Second country"
+            value="${escapeHTML(
+              match.awayTeam
+            )}"
+            data-action="playoff-input"
+            data-match="${match.id}"
+            data-field="awayTeam"
+          >
 
-      ${
-        match.winner
-          ? `
-            <span class="badge">
-              ${escapeHTML(match.winner)} qualified
-            </span>
-          `
-          : `
-            <button
-              type="button"
-              class="primary-btn"
-              data-action="qualify-playoff"
-              data-match="${match.id}"
-            >
-              Qualify Winner
-            </button>
-          `
-      }
-    `;
+          <input
+            type="number"
+            min="0"
+            class="playoff-score"
+            value="${
+              match.awayScore
+            }"
+            data-action="playoff-input"
+            data-match="${match.id}"
+            data-field="awayScore"
+          >
+        </div>
 
-    playoffGrid.appendChild(card);
-  });
+        ${
+          match.winner
+            ? `
+              <span class="badge">
+                ${escapeHTML(
+                  match.winner
+                )} qualified
+              </span>
+            `
+            : `
+              <button
+                type="button"
+                class="primary-btn"
+                data-action="qualify-playoff"
+                data-match="${match.id}"
+              >
+                Qualify Winner
+              </button>
+            `
+        }
+      `;
+
+      playoffGrid.appendChild(
+        card
+      );
+    }
+  );
 }
-
-
 /* =========================================================
    64-TEAM WORLD CUP DRAW
 ========================================================= */
@@ -1691,12 +2833,21 @@ function renderPlayoffs() {
 function shuffleArray(items) {
   const shuffled = [...items];
 
-  for (let index = shuffled.length - 1; index > 0; index--) {
-    const randomIndex = Math.floor(
-      Math.random() * (index + 1)
-    );
+  for (
+    let index = shuffled.length - 1;
+    index > 0;
+    index--
+  ) {
+    const randomIndex =
+      Math.floor(
+        Math.random() *
+          (index + 1)
+      );
 
-    [shuffled[index], shuffled[randomIndex]] = [
+    [
+      shuffled[index],
+      shuffled[randomIndex]
+    ] = [
       shuffled[randomIndex],
       shuffled[index]
     ];
@@ -1706,7 +2857,10 @@ function shuffleArray(items) {
 }
 
 function drawWorldCupGroups() {
-  if (state.qualifiedTeams.length !== TOURNAMENT_SIZE) {
+  if (
+    state.qualifiedTeams.length !==
+    TOURNAMENT_SIZE
+  ) {
     alert(
       `You need exactly 64 qualified teams. You currently have ${state.qualifiedTeams.length}.`
     );
@@ -1714,25 +2868,34 @@ function drawWorldCupGroups() {
     return;
   }
 
-  const shuffledTeams = shuffleArray(
-    state.qualifiedTeams
-  );
+  const shuffledTeams =
+    shuffleArray(
+      state.qualifiedTeams
+    );
 
   const newDraw = {};
 
   for (
     let groupIndex = 0;
-    groupIndex < FINAL_GROUP_COUNT;
+    groupIndex <
+      FINAL_GROUP_COUNT;
     groupIndex++
   ) {
-    const groupLetter = getGroupLetter(groupIndex);
-    const startIndex =
-      groupIndex * TEAMS_PER_FINAL_GROUP;
+    const groupLetter =
+      getGroupLetter(
+        groupIndex
+      );
 
-    newDraw[groupLetter] = shuffledTeams.slice(
-      startIndex,
-      startIndex + TEAMS_PER_FINAL_GROUP
-    );
+    const startIndex =
+      groupIndex *
+      TEAMS_PER_FINAL_GROUP;
+
+    newDraw[groupLetter] =
+      shuffledTeams.slice(
+        startIndex,
+        startIndex +
+          TEAMS_PER_FINAL_GROUP
+      );
   }
 
   state.finalDraw = newDraw;
@@ -1743,7 +2906,9 @@ function drawWorldCupGroups() {
 
 function clearWorldCupDraw() {
   if (
-    Object.keys(state.finalDraw || {}).length === 0
+    Object.keys(
+      state.finalDraw || {}
+    ).length === 0
   ) {
     return;
   }
@@ -1769,67 +2934,103 @@ function renderWorldCupDraw() {
 
   worldCupGroups.innerHTML = "";
 
-  const groups = Object.entries(state.finalDraw || {});
+  const groups =
+    Object.entries(
+      state.finalDraw || {}
+    );
 
   if (groups.length === 0) {
     const message =
-      state.qualifiedTeams.length === TOURNAMENT_SIZE
+      state.qualifiedTeams.length ===
+      TOURNAMENT_SIZE
         ? "All 64 teams are ready. Press Draw 16 Groups."
         : `The draw becomes available when 64 teams have qualified. ${state.qualifiedTeams.length} of 64 places are currently filled.`;
 
     worldCupGroups.innerHTML = `
       <div class="empty-state">
-        <span class="empty-state-icon">🎲</span>
-        <p>${message}</p>
+        <span class="empty-state-icon">
+          🎲
+        </span>
+
+        <p>
+          ${message}
+        </p>
       </div>
     `;
 
     return;
   }
 
-  groups.forEach(([groupLetter, teams]) => {
-    const card = document.createElement("article");
-    card.className = "group-table";
+  groups.forEach(
+    (
+      [
+        groupLetter,
+        teams
+      ]
+    ) => {
+      const card =
+        document.createElement(
+          "article"
+        );
 
-    card.innerHTML = `
-      <h3>Group ${groupLetter}</h3>
+      card.className =
+        "group-table";
 
-      <table>
-        <thead>
-          <tr>
-            <th>Position</th>
-            <th>Country</th>
-            <th>Confederation</th>
-          </tr>
-        </thead>
+      card.innerHTML = `
+        <h3>
+          Group ${groupLetter}
+        </h3>
 
-        <tbody>
-          ${teams
-            .map(
-              (team, index) => `
-                <tr>
-                  <td>${index + 1}</td>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Position</th>
+                <th>Country</th>
+                <th>Confederation</th>
+              </tr>
+            </thead>
 
-                  <td>
-                    ${teamWithFlag(team.name)}
-                  </td>
+            <tbody>
+              ${teams
+                .map(
+                  (
+                    team,
+                    index
+                  ) => `
+                    <tr>
+                      <td>
+                        ${index + 1}
+                      </td>
 
-                  <td>
-                    ${
-                      continentCodes[team.continent] ||
-                      "Playoff"
-                    }
-                  </td>
-                </tr>
-              `
-            )
-            .join("")}
-        </tbody>
-      </table>
-    `;
+                      <td>
+                        ${teamWithFlag(
+                          team.name
+                        )}
+                      </td>
 
-    worldCupGroups.appendChild(card);
-  });
+                      <td>
+                        ${
+                          continentCodes[
+                            team.continent
+                          ] ||
+                          "Playoff"
+                        }
+                      </td>
+                    </tr>
+                  `
+                )
+                .join("")}
+            </tbody>
+          </table>
+        </div>
+      `;
+
+      worldCupGroups.appendChild(
+        card
+      );
+    }
+  );
 }
 
 
@@ -1837,11 +3038,16 @@ function renderWorldCupDraw() {
    RESET FUNCTIONS
 ========================================================= */
 
-function resetContinent(continentId) {
-  const continentName = continentNames[continentId];
+function resetContinent(
+  continentId
+) {
+  const continentName =
+    continentNames[
+      continentId
+    ];
 
   const confirmed = confirm(
-    `Reset all ${continentName} groups, teams and results?`
+    `Reset ${continentName} to its original preset groups?`
   );
 
   if (!confirmed) {
@@ -1849,17 +3055,36 @@ function resetContinent(continentId) {
   }
 
   const continentTeamIds =
-    state.continents[continentId].groups.flatMap(group =>
-      group.teams.map(team => team.id)
+    state
+      .continents[
+        continentId
+      ]
+      .groups
+      .flatMap(group =>
+        group.teams.map(
+          team => team.id
+        )
+      );
+
+  state.qualifiedTeams =
+    state.qualifiedTeams.filter(
+      team =>
+        team.automatic ||
+        !continentTeamIds.includes(
+          team.id
+        )
     );
 
-  state.qualifiedTeams = state.qualifiedTeams.filter(
-    team =>
-      team.automatic ||
-      !continentTeamIds.includes(team.id)
-  );
+  state
+    .continents[
+      continentId
+    ]
+    .groups =
+    createPresetGroups(
+      continentId
+    );
 
-  state.continents[continentId].groups = [];
+  selectedSwapTeam = null;
   state.finalDraw = {};
 
   saveState();
@@ -1875,7 +3100,10 @@ function resetAllQualifiers() {
     return;
   }
 
-  state = createDefaultState();
+  state =
+    createDefaultState();
+
+  selectedSwapTeam = null;
 
   saveState();
   renderEverything();
@@ -1888,146 +3116,262 @@ function resetAllQualifiers() {
 
 function initialiseStaticButtons() {
   document
-    .querySelectorAll(".add-group-btn")
+    .querySelectorAll(
+      ".add-group-btn"
+    )
     .forEach(button => {
-      button.addEventListener("click", () => {
-        addGroup(button.dataset.continent);
-      });
+      button.addEventListener(
+        "click",
+        () => {
+          addGroup(
+            button.dataset.continent
+          );
+        }
+      );
     });
 
   document
-    .querySelectorAll(".add-team-btn")
+    .querySelectorAll(
+      ".add-team-btn"
+    )
     .forEach(button => {
-      button.addEventListener("click", () => {
-        addTeam(button.dataset.continent);
-      });
+      button.addEventListener(
+        "click",
+        () => {
+          addTeam(
+            button.dataset.continent
+          );
+        }
+      );
     });
 
   document
-    .querySelectorAll(".reset-continent-btn")
+    .querySelectorAll(
+      ".reset-continent-btn"
+    )
     .forEach(button => {
-      button.addEventListener("click", () => {
-        resetContinent(button.dataset.continent);
-      });
+      button.addEventListener(
+        "click",
+        () => {
+          resetContinent(
+            button.dataset.continent
+          );
+        }
+      );
     });
 
-  addPlayoffBtn?.addEventListener(
-    "click",
-    addPlayoffMatch
-  );
+  addPlayoffBtn
+    ?.addEventListener(
+      "click",
+      addPlayoffMatch
+    );
 
-  drawWorldCupBtn?.addEventListener(
-    "click",
-    drawWorldCupGroups
-  );
+  drawWorldCupBtn
+    ?.addEventListener(
+      "click",
+      drawWorldCupGroups
+    );
 
-  clearWorldCupDrawBtn?.addEventListener(
-    "click",
-    clearWorldCupDraw
-  );
+  clearWorldCupDrawBtn
+    ?.addEventListener(
+      "click",
+      clearWorldCupDraw
+    );
 
-  resetAllBtn?.addEventListener(
-    "click",
-    resetAllQualifiers
-  );
+  resetAllBtn
+    ?.addEventListener(
+      "click",
+      resetAllQualifiers
+    );
 
-  qualifiedContinentFilter?.addEventListener(
-    "change",
-    renderQualifiedTeams
-  );
+  qualifiedContinentFilter
+    ?.addEventListener(
+      "change",
+      renderQualifiedTeams
+    );
 }
 
-document.addEventListener("click", event => {
-  const actionElement = event.target.closest(
-    "[data-action]"
-  );
+document.addEventListener(
+  "click",
+  event => {
+    const actionElement =
+      event.target.closest(
+        "[data-action]"
+      );
 
-  if (!actionElement) {
-    return;
+    if (!actionElement) {
+      return;
+    }
+
+    const action =
+      actionElement
+        .dataset.action;
+
+    if (
+      action === "add-group"
+    ) {
+      addGroup(
+        actionElement
+          .dataset.continent
+      );
+    }
+
+    if (
+      action === "add-team"
+    ) {
+      addTeam(
+        actionElement
+          .dataset.continent,
+        actionElement
+          .dataset.group ||
+          null
+      );
+    }
+
+    if (
+      action ===
+      "rename-group"
+    ) {
+      renameGroup(
+        actionElement
+          .dataset.continent,
+        actionElement
+          .dataset.group
+      );
+    }
+
+    if (
+      action ===
+      "remove-group"
+    ) {
+      removeGroup(
+        actionElement
+          .dataset.continent,
+        actionElement
+          .dataset.group
+      );
+    }
+
+    if (
+      action ===
+      "remove-team"
+    ) {
+      removeTeam(
+        actionElement
+          .dataset.continent,
+        actionElement
+          .dataset.group,
+        actionElement
+          .dataset.team
+      );
+    }
+
+    if (
+      action === "move-team"
+    ) {
+      moveTeam(
+        actionElement
+          .dataset.continent,
+        actionElement
+          .dataset.group,
+        actionElement
+          .dataset.team
+      );
+    }
+
+    if (
+      action === "swap-team"
+    ) {
+      swapTeams(
+        actionElement
+          .dataset.continent,
+        actionElement
+          .dataset.team
+      );
+    }
+
+    if (
+      action ===
+      "toggle-qualified"
+    ) {
+      toggleQualification(
+        actionElement
+          .dataset.team
+      );
+    }
+
+    if (
+      action ===
+      "remove-qualified"
+    ) {
+      removeQualifiedTeam(
+        actionElement
+          .dataset.team
+      );
+    }
+
+    if (
+      action ===
+      "remove-playoff"
+    ) {
+      removePlayoffMatch(
+        actionElement
+          .dataset.match
+      );
+    }
+
+    if (
+      action ===
+      "qualify-playoff"
+    ) {
+      qualifyPlayoffWinner(
+        actionElement
+          .dataset.match
+      );
+    }
   }
+);
 
-  const action = actionElement.dataset.action;
+document.addEventListener(
+  "change",
+  event => {
+    const element =
+      event.target;
 
-  if (action === "add-group") {
-    addGroup(actionElement.dataset.continent);
+    const action =
+      element.dataset.action;
+
+    if (
+      action ===
+      "group-score"
+    ) {
+      updateGroupScore(
+        element
+          .dataset.continent,
+        element
+          .dataset.group,
+        element
+          .dataset.fixture,
+        element
+          .dataset.side,
+        element.value
+      );
+    }
+
+    if (
+      action ===
+      "playoff-input"
+    ) {
+      updatePlayoffMatch(
+        element
+          .dataset.match,
+        element
+          .dataset.field,
+        element.value
+      );
+    }
   }
-
-  if (action === "add-team") {
-    addTeam(
-      actionElement.dataset.continent,
-      actionElement.dataset.group || null
-    );
-  }
-
-  if (action === "rename-group") {
-    renameGroup(
-      actionElement.dataset.continent,
-      actionElement.dataset.group
-    );
-  }
-
-  if (action === "remove-group") {
-    removeGroup(
-      actionElement.dataset.continent,
-      actionElement.dataset.group
-    );
-  }
-
-  if (action === "remove-team") {
-    removeTeam(
-      actionElement.dataset.continent,
-      actionElement.dataset.group,
-      actionElement.dataset.team
-    );
-  }
-
-  if (action === "move-team") {
-    moveTeam(
-      actionElement.dataset.continent,
-      actionElement.dataset.group,
-      actionElement.dataset.team
-    );
-  }
-
-  if (action === "toggle-qualified") {
-    toggleQualification(actionElement.dataset.team);
-  }
-
-  if (action === "remove-qualified") {
-    removeQualifiedTeam(actionElement.dataset.team);
-  }
-
-  if (action === "remove-playoff") {
-    removePlayoffMatch(actionElement.dataset.match);
-  }
-
-  if (action === "qualify-playoff") {
-    qualifyPlayoffWinner(actionElement.dataset.match);
-  }
-});
-
-document.addEventListener("change", event => {
-  const element = event.target;
-  const action = element.dataset.action;
-
-  if (action === "group-score") {
-    updateGroupScore(
-      element.dataset.continent,
-      element.dataset.group,
-      element.dataset.fixture,
-      element.dataset.side,
-      element.value
-    );
-  }
-
-  if (action === "playoff-input") {
-    updatePlayoffMatch(
-      element.dataset.match,
-      element.dataset.field,
-      element.value
-    );
-  }
-});
+);
 
 
 /* =========================================================
@@ -2037,7 +3381,9 @@ document.addEventListener("change", event => {
 function renderEverything() {
   ensureAutomaticQualifiers();
 
-  Object.keys(state.continents).forEach(
+  Object.keys(
+    state.continents
+  ).forEach(
     renderContinentGroups
   );
 
@@ -2053,45 +3399,64 @@ function renderEverything() {
    AUTHENTICATION
 ========================================================= */
 
-onAuthStateChanged(auth, async user => {
-  currentUser = user;
-  firebaseReady = true;
+onAuthStateChanged(
+  auth,
+  async user => {
+    currentUser = user;
+    firebaseReady = true;
 
-  const loginBtn = document.getElementById("loginBtn");
-  const logoutBtn = document.getElementById("logoutBtn");
-  const userStatus = document.getElementById("userStatus");
+    const loginBtn =
+      document.getElementById(
+        "loginBtn"
+      );
 
-  if (user) {
-    if (loginBtn) {
-      loginBtn.style.display = "none";
+    const logoutBtn =
+      document.getElementById(
+        "logoutBtn"
+      );
+
+    const userStatus =
+      document.getElementById(
+        "userStatus"
+      );
+
+    if (user) {
+      if (loginBtn) {
+        loginBtn.style.display =
+          "none";
+      }
+
+      if (logoutBtn) {
+        logoutBtn.style.display =
+          "inline-block";
+      }
+
+      if (userStatus) {
+        userStatus.textContent =
+          `Signed in as ${user.email}`;
+      }
+
+      await loadFromFirebase();
+    } else {
+      if (loginBtn) {
+        loginBtn.style.display =
+          "inline-block";
+      }
+
+      if (logoutBtn) {
+        logoutBtn.style.display =
+          "none";
+      }
+
+      if (userStatus) {
+        userStatus.textContent =
+          "Not signed in";
+      }
     }
 
-    if (logoutBtn) {
-      logoutBtn.style.display = "inline-block";
-    }
-
-    if (userStatus) {
-      userStatus.textContent =
-        `Signed in as ${user.email}`;
-    }
-
-    await loadFromFirebase();
-  } else {
-    if (loginBtn) {
-      loginBtn.style.display = "inline-block";
-    }
-
-    if (logoutBtn) {
-      logoutBtn.style.display = "none";
-    }
-
-    if (userStatus) {
-      userStatus.textContent = "Not signed in";
-    }
+    renderEverything();
   }
-
-  renderEverything();
-});
+);
 
 
 /* =========================================================

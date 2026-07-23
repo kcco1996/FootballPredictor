@@ -949,3 +949,49 @@ th:nth-child(2) {
     grid-template-columns: 1fr 1fr;
   }
 }
+
+/* =========================
+   TEAM SWAPPING
+========================= */
+
+.stage-actions {
+  flex-wrap: wrap;
+}
+
+.swap-selected {
+  background: rgba(255, 193, 7, 0.24) !important;
+  outline: 2px solid var(--gold);
+  outline-offset: -2px;
+}
+
+.swap-selected .team-name {
+  color: #fff4bf;
+  font-weight: bold;
+}
+
+.swap-team-btn {
+  min-width: 72px;
+}
+.swap-selected {
+  background: rgba(
+    255,
+    193,
+    7,
+    0.24
+  ) !important;
+  outline: 2px solid var(--gold);
+  outline-offset: -2px;
+}
+
+.swap-selected .team-name {
+  color: #fff4bf;
+  font-weight: bold;
+}
+
+.key-swap {
+  background: var(--gold);
+}
+
+.stage-actions {
+  flex-wrap: wrap;
+}
