@@ -580,7 +580,18 @@ function createDefaultState() {
       automatic: true
     })),
 
-    finalDraw: {}
+    finalDraw: {},
+    finalGroupResults: {},
+
+    knockoutRounds: {
+      roundOf32: [],
+      roundOf16: [],
+      quarterFinals: [],
+      semiFinals: [],
+      final: []
+    },
+
+    worldCupWinner: null
   };
 }
 
@@ -886,8 +897,23 @@ function loadLocalState() {
       playoffMatches:
         parsedState.playoffMatches || [],
 
-      finalDraw:
-        parsedState.finalDraw || {}
+    finalDraw:
+  parsedState.finalDraw || {},
+
+finalGroupResults:
+  parsedState.finalGroupResults || {},
+
+knockoutRounds:
+  parsedState.knockoutRounds || {
+    roundOf32: [],
+    roundOf16: [],
+    quarterFinals: [],
+    semiFinals: [],
+    final: []
+  },
+
+worldCupWinner:
+  parsedState.worldCupWinner || null
     };
   } catch (error) {
     console.error(
@@ -2827,8 +2853,60 @@ function renderPlayoffs() {
   );
 }
 /* =========================================================
-   64-TEAM WORLD CUP DRAW
+   64-TEAM WORLD CUP TOURNAMENT
 ========================================================= */
+
+let selectedFinalSwapTeam = null;
+
+const knockoutRoundOrder = [
+  "roundOf32",
+  "roundOf16",
+  "quarterFinals",
+  "semiFinals",
+  "final"
+];
+
+const knockoutRoundNames = {
+  roundOf32: "Round of 32",
+  roundOf16: "Round of 16",
+  quarterFinals: "Quarter-finals",
+  semiFinals: "Semi-finals",
+  final: "World Cup Final"
+};
+
+function ensureWorldCupTournamentState() {
+  if (!state.finalGroupResults) {
+    state.finalGroupResults = {};
+  }
+
+  if (!state.knockoutRounds) {
+    state.knockoutRounds = {};
+  }
+
+  knockoutRoundOrder.forEach(roundKey => {
+    if (!Array.isArray(state.knockoutRounds[roundKey])) {
+      state.knockoutRounds[roundKey] = [];
+    }
+  });
+
+  if (state.worldCupWinner === undefined) {
+    state.worldCupWinner = null;
+  }
+}
+
+function clearWorldCupProgress() {
+  ensureWorldCupTournamentState();
+
+  state.knockoutRounds = {
+    roundOf32: [],
+    roundOf16: [],
+    quarterFinals: [],
+    semiFinals: [],
+    final: []
+  };
+
+  state.worldCupWinner = null;
+}
 
 function shuffleArray(items) {
   const shuffled = [...items];
@@ -2838,11 +2916,9 @@ function shuffleArray(items) {
     index > 0;
     index--
   ) {
-    const randomIndex =
-      Math.floor(
-        Math.random() *
-          (index + 1)
-      );
+    const randomIndex = Math.floor(
+      Math.random() * (index + 1)
+    );
 
     [
       shuffled[index],
@@ -2869,36 +2945,33 @@ function drawWorldCupGroups() {
   }
 
   const shuffledTeams =
-    shuffleArray(
-      state.qualifiedTeams
-    );
+    shuffleArray(state.qualifiedTeams);
 
   const newDraw = {};
 
   for (
     let groupIndex = 0;
-    groupIndex <
-      FINAL_GROUP_COUNT;
+    groupIndex < FINAL_GROUP_COUNT;
     groupIndex++
   ) {
     const groupLetter =
-      getGroupLetter(
-        groupIndex
-      );
+      getGroupLetter(groupIndex);
 
     const startIndex =
-      groupIndex *
-      TEAMS_PER_FINAL_GROUP;
+      groupIndex * TEAMS_PER_FINAL_GROUP;
 
     newDraw[groupLetter] =
       shuffledTeams.slice(
         startIndex,
-        startIndex +
-          TEAMS_PER_FINAL_GROUP
+        startIndex + TEAMS_PER_FINAL_GROUP
       );
   }
 
   state.finalDraw = newDraw;
+  state.finalGroupResults = {};
+  selectedFinalSwapTeam = null;
+
+  clearWorldCupProgress();
 
   saveState();
   renderEverything();
@@ -2914,7 +2987,7 @@ function clearWorldCupDraw() {
   }
 
   const confirmed = confirm(
-    "Clear the current 16-group World Cup draw?"
+    "Clear the current World Cup draw, group results and knockout bracket?"
   );
 
   if (!confirmed) {
@@ -2922,9 +2995,1009 @@ function clearWorldCupDraw() {
   }
 
   state.finalDraw = {};
+  state.finalGroupResults = {};
+  selectedFinalSwapTeam = null;
+
+  clearWorldCupProgress();
 
   saveState();
   renderEverything();
+}
+
+function getFinalGroup(groupLetter) {
+  const teams =
+    state.finalDraw?.[groupLetter] || [];
+
+  return {
+    id: `world-cup-group-${groupLetter}`,
+    name: `Group ${groupLetter}`,
+    teams,
+    results:
+      state.finalGroupResults?.[groupLetter] || {}
+  };
+}
+
+function findFinalDrawTeam(
+  groupLetter,
+  teamId
+) {
+  const teams =
+    state.finalDraw?.[groupLetter] || [];
+
+  const teamIndex =
+    teams.findIndex(
+      team => team.id === teamId
+    );
+
+  if (teamIndex === -1) {
+    return null;
+  }
+
+  return {
+    groupLetter,
+    teamIndex,
+    team: teams[teamIndex]
+  };
+}
+
+function swapFinalDrawTeams(
+  groupLetter,
+  teamId
+) {
+  const selected =
+    findFinalDrawTeam(
+      groupLetter,
+      teamId
+    );
+
+  if (!selected) {
+    return;
+  }
+
+  if (!selectedFinalSwapTeam) {
+    selectedFinalSwapTeam = {
+      groupLetter,
+      teamId
+    };
+
+    renderWorldCupDraw();
+    return;
+  }
+
+  if (
+    selectedFinalSwapTeam.groupLetter ===
+      groupLetter &&
+    selectedFinalSwapTeam.teamId === teamId
+  ) {
+    selectedFinalSwapTeam = null;
+    renderWorldCupDraw();
+    return;
+  }
+
+  const first =
+    findFinalDrawTeam(
+      selectedFinalSwapTeam.groupLetter,
+      selectedFinalSwapTeam.teamId
+    );
+
+  const second = selected;
+
+  if (!first || !second) {
+    selectedFinalSwapTeam = null;
+    return;
+  }
+
+  state.finalDraw[
+    first.groupLetter
+  ][first.teamIndex] = second.team;
+
+  state.finalDraw[
+    second.groupLetter
+  ][second.teamIndex] = first.team;
+
+  state.finalGroupResults[
+    first.groupLetter
+  ] = {};
+
+  state.finalGroupResults[
+    second.groupLetter
+  ] = {};
+
+  selectedFinalSwapTeam = null;
+
+  clearWorldCupProgress();
+
+  saveState();
+  renderEverything();
+}
+
+function updateFinalGroupScore(
+  groupLetter,
+  fixtureId,
+  side,
+  value
+) {
+  ensureWorldCupTournamentState();
+
+  if (
+    !state.finalGroupResults[groupLetter]
+  ) {
+    state.finalGroupResults[groupLetter] = {};
+  }
+
+  if (
+    !state.finalGroupResults[
+      groupLetter
+    ][fixtureId]
+  ) {
+    state.finalGroupResults[
+      groupLetter
+    ][fixtureId] = {
+      home: "",
+      away: ""
+    };
+  }
+
+  state.finalGroupResults[
+    groupLetter
+  ][fixtureId][side] =
+    value === ""
+      ? ""
+      : Math.max(0, Number(value));
+
+  clearWorldCupProgress();
+
+  saveState();
+  renderEverything();
+}
+
+function isFinalGroupComplete(
+  groupLetter
+) {
+  const group =
+    getFinalGroup(groupLetter);
+
+  const fixtures =
+    createGroupFixtures(group);
+
+  return (
+    group.teams.length ===
+      TEAMS_PER_FINAL_GROUP &&
+    fixtures.length === 6 &&
+    fixtures.every(fixture => {
+      const result =
+        group.results?.[fixture.id];
+
+      return (
+        result &&
+        result.home !== "" &&
+        result.away !== "" &&
+        result.home !== undefined &&
+        result.away !== undefined
+      );
+    })
+  );
+}
+
+function allFinalGroupsComplete() {
+  const groupLetters =
+    Object.keys(
+      state.finalDraw || {}
+    );
+
+  return (
+    groupLetters.length ===
+      FINAL_GROUP_COUNT &&
+    groupLetters.every(
+      isFinalGroupComplete
+    )
+  );
+}
+
+function createKnockoutMatch(
+  id,
+  homeTeam,
+  awayTeam
+) {
+  return {
+    id,
+    homeTeam,
+    awayTeam,
+    homeScore: "",
+    awayScore: "",
+    homePenalties: "",
+    awayPenalties: "",
+    winnerId: null
+  };
+}
+
+function buildRoundOf32() {
+  if (!allFinalGroupsComplete()) {
+    alert(
+      "Enter all six scores in every World Cup group before creating the Round of 32."
+    );
+
+    return;
+  }
+
+  const standings = {};
+
+  Object.keys(state.finalDraw)
+    .sort()
+    .forEach(groupLetter => {
+      standings[groupLetter] =
+        calculateGroupTable(
+          getFinalGroup(groupLetter)
+        );
+    });
+
+  const matches = [];
+
+  for (
+    let groupIndex = 0;
+    groupIndex < FINAL_GROUP_COUNT;
+    groupIndex += 2
+  ) {
+    const firstLetter =
+      getGroupLetter(groupIndex);
+
+    const secondLetter =
+      getGroupLetter(groupIndex + 1);
+
+    matches.push(
+      createKnockoutMatch(
+        `roundOf32-${matches.length + 1}`,
+        standings[firstLetter][0],
+        standings[secondLetter][1]
+      )
+    );
+
+    matches.push(
+      createKnockoutMatch(
+        `roundOf32-${matches.length + 1}`,
+        standings[secondLetter][0],
+        standings[firstLetter][1]
+      )
+    );
+  }
+
+  clearWorldCupProgress();
+
+  state.knockoutRounds.roundOf32 =
+    matches;
+
+  saveState();
+  renderEverything();
+}
+
+function getKnockoutWinner(match) {
+  if (
+    match.homeScore === "" ||
+    match.awayScore === "" ||
+    match.homeScore === undefined ||
+    match.awayScore === undefined
+  ) {
+    return null;
+  }
+
+  const homeScore =
+    Number(match.homeScore);
+
+  const awayScore =
+    Number(match.awayScore);
+
+  if (homeScore > awayScore) {
+    return match.homeTeam;
+  }
+
+  if (awayScore > homeScore) {
+    return match.awayTeam;
+  }
+
+  if (
+    match.homePenalties === "" ||
+    match.awayPenalties === "" ||
+    match.homePenalties === undefined ||
+    match.awayPenalties === undefined
+  ) {
+    return null;
+  }
+
+  const homePenalties =
+    Number(match.homePenalties);
+
+  const awayPenalties =
+    Number(match.awayPenalties);
+
+  if (
+    homePenalties > awayPenalties
+  ) {
+    return match.homeTeam;
+  }
+
+  if (
+    awayPenalties > homePenalties
+  ) {
+    return match.awayTeam;
+  }
+
+  return null;
+}
+
+function preserveMatchResult(
+  newMatch,
+  oldMatches
+) {
+  const oldMatch =
+    oldMatches.find(match =>
+      match.homeTeam?.id ===
+        newMatch.homeTeam?.id &&
+      match.awayTeam?.id ===
+        newMatch.awayTeam?.id
+    );
+
+  if (!oldMatch) {
+    return newMatch;
+  }
+
+  return {
+    ...newMatch,
+    homeScore: oldMatch.homeScore,
+    awayScore: oldMatch.awayScore,
+    homePenalties:
+      oldMatch.homePenalties,
+    awayPenalties:
+      oldMatch.awayPenalties,
+    winnerId: oldMatch.winnerId
+  };
+}
+
+function rebuildLaterKnockoutRounds(
+  changedRoundKey
+) {
+  const changedIndex =
+    knockoutRoundOrder.indexOf(
+      changedRoundKey
+    );
+
+  for (
+    let roundIndex = changedIndex + 1;
+    roundIndex <
+      knockoutRoundOrder.length;
+    roundIndex++
+  ) {
+    const previousRoundKey =
+      knockoutRoundOrder[
+        roundIndex - 1
+      ];
+
+    const currentRoundKey =
+      knockoutRoundOrder[
+        roundIndex
+      ];
+
+    const previousMatches =
+      state.knockoutRounds[
+        previousRoundKey
+      ];
+
+    const oldCurrentMatches =
+      state.knockoutRounds[
+        currentRoundKey
+      ] || [];
+
+    const winners =
+      previousMatches.map(
+        getKnockoutWinner
+      );
+
+    if (
+      previousMatches.length === 0 ||
+      winners.some(winner => !winner)
+    ) {
+      state.knockoutRounds[
+        currentRoundKey
+      ] = [];
+
+      for (
+        let laterIndex =
+          roundIndex + 1;
+        laterIndex <
+          knockoutRoundOrder.length;
+        laterIndex++
+      ) {
+        state.knockoutRounds[
+          knockoutRoundOrder[
+            laterIndex
+          ]
+        ] = [];
+      }
+
+      state.worldCupWinner = null;
+      return;
+    }
+
+    const newMatches = [];
+
+    for (
+      let winnerIndex = 0;
+      winnerIndex < winners.length;
+      winnerIndex += 2
+    ) {
+      const newMatch =
+        createKnockoutMatch(
+          `${currentRoundKey}-${newMatches.length + 1}`,
+          winners[winnerIndex],
+          winners[winnerIndex + 1]
+        );
+
+      newMatches.push(
+        preserveMatchResult(
+          newMatch,
+          oldCurrentMatches
+        )
+      );
+    }
+
+    state.knockoutRounds[
+      currentRoundKey
+    ] = newMatches;
+  }
+
+  const finalMatch =
+    state.knockoutRounds.final[0];
+
+  const champion =
+    finalMatch
+      ? getKnockoutWinner(finalMatch)
+      : null;
+
+  state.worldCupWinner =
+    champion || null;
+}
+
+function updateKnockoutMatch(
+  roundKey,
+  matchId,
+  field,
+  value
+) {
+  ensureWorldCupTournamentState();
+
+  const match =
+    state.knockoutRounds[
+      roundKey
+    ]?.find(
+      item => item.id === matchId
+    );
+
+  if (!match) {
+    return;
+  }
+
+  match[field] =
+    value === ""
+      ? ""
+      : Math.max(0, Number(value));
+
+  const winner =
+    getKnockoutWinner(match);
+
+  match.winnerId =
+    winner?.id || null;
+
+  rebuildLaterKnockoutRounds(
+    roundKey
+  );
+
+  saveState();
+  renderEverything();
+}
+
+function resetKnockoutBracket() {
+  if (
+    state.knockoutRounds
+      ?.roundOf32?.length === 0
+  ) {
+    return;
+  }
+
+  const confirmed = confirm(
+    "Clear every knockout score and return to the completed group stage?"
+  );
+
+  if (!confirmed) {
+    return;
+  }
+
+  clearWorldCupProgress();
+
+  saveState();
+  renderEverything();
+}
+
+function ensureTournamentStageContainer() {
+  let container =
+    document.getElementById(
+      "worldCupTournamentStage"
+    );
+
+  if (
+    !container &&
+    worldCupGroups?.parentElement
+  ) {
+    container =
+      document.createElement(
+        "section"
+      );
+
+    container.id =
+      "worldCupTournamentStage";
+
+    container.className =
+      "tournament-stage";
+
+    worldCupGroups
+      .parentElement
+      .appendChild(container);
+  }
+
+  return container;
+}
+
+function renderFinalGroupCard(
+  groupLetter
+) {
+  const group =
+    getFinalGroup(groupLetter);
+
+  const table =
+    calculateGroupTable(group);
+
+  const fixtures =
+    createGroupFixtures(group);
+
+  const complete =
+    isFinalGroupComplete(
+      groupLetter
+    );
+
+  return `
+    <article class="group-table">
+      <div class="group-heading">
+        <div>
+          <h3>Group ${groupLetter}</h3>
+
+          <span class="badge">
+            ${
+              complete
+                ? "Complete"
+                : "Enter all scores"
+            }
+          </span>
+        </div>
+      </div>
+
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Pos</th>
+              <th>Country</th>
+              <th>P</th>
+              <th>W</th>
+              <th>D</th>
+              <th>L</th>
+              <th>GF</th>
+              <th>GA</th>
+              <th>GD</th>
+              <th>Pts</th>
+              <th>Draw</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            ${table.map(
+              (team, index) => {
+                const selected =
+                  selectedFinalSwapTeam
+                    ?.groupLetter ===
+                      groupLetter &&
+                  selectedFinalSwapTeam
+                    ?.teamId ===
+                      team.id;
+
+                return `
+                  <tr class="${
+                    index < 2
+                      ? "qualifies-directly"
+                      : ""
+                  } ${
+                    selected
+                      ? "swap-selected"
+                      : ""
+                  }">
+                    <td>${index + 1}</td>
+
+                    <td>
+                      ${teamWithFlag(
+                        team.name
+                      )}
+                    </td>
+
+                    <td>${team.played}</td>
+                    <td>${team.won}</td>
+                    <td>${team.drawn}</td>
+                    <td>${team.lost}</td>
+                    <td>${team.gf}</td>
+                    <td>${team.ga}</td>
+                    <td>${team.gd}</td>
+
+                    <td>
+                      <strong>
+                        ${team.points}
+                      </strong>
+                    </td>
+
+                    <td>
+                      <button
+                        type="button"
+                        class="secondary-btn"
+                        data-action="final-swap-team"
+                        data-group="${groupLetter}"
+                        data-team="${team.id}"
+                      >
+                        ${
+                          selected
+                            ? "Cancel"
+                            : "Swap"
+                        }
+                      </button>
+                    </td>
+                  </tr>
+                `;
+              }
+            ).join("")}
+          </tbody>
+        </table>
+      </div>
+
+      <div class="section-header">
+        <div>
+          <p class="eyebrow">
+            Group matches
+          </p>
+
+          <h3>
+            Your score predictions
+          </h3>
+        </div>
+      </div>
+
+      <div class="fixtures-list">
+        ${fixtures.map(fixture => {
+          const result =
+            group.results?.[
+              fixture.id
+            ] || {};
+
+          return `
+            <div class="fixture">
+              <div class="home">
+                ${teamWithFlag(
+                  fixture.home.name
+                )}
+              </div>
+
+              <input
+                type="number"
+                min="0"
+                class="score-input"
+                value="${
+                  result.home ?? ""
+                }"
+                data-action="final-group-score"
+                data-group="${groupLetter}"
+                data-fixture="${fixture.id}"
+                data-side="home"
+              >
+
+              <span>-</span>
+
+              <input
+                type="number"
+                min="0"
+                class="score-input"
+                value="${
+                  result.away ?? ""
+                }"
+                data-action="final-group-score"
+                data-group="${groupLetter}"
+                data-fixture="${fixture.id}"
+                data-side="away"
+              >
+
+              <div class="away">
+                ${teamWithFlag(
+                  fixture.away.name
+                )}
+              </div>
+            </div>
+          `;
+        }).join("")}
+      </div>
+    </article>
+  `;
+}
+
+function renderKnockoutMatch(
+  roundKey,
+  match
+) {
+  const isDraw =
+    match.homeScore !== "" &&
+    match.awayScore !== "" &&
+    Number(match.homeScore) ===
+      Number(match.awayScore);
+
+  const winner =
+    getKnockoutWinner(match);
+
+  return `
+    <article class="playoff-card">
+      <div class="fixture-group">
+        ${
+          winner
+            ? `${escapeHTML(
+                winner.name
+              )} advances`
+            : "Enter your prediction"
+        }
+      </div>
+
+      <div class="fixture">
+        <div class="home">
+          ${teamWithFlag(
+            match.homeTeam.name
+          )}
+        </div>
+
+        <input
+          type="number"
+          min="0"
+          class="score-input"
+          value="${
+            match.homeScore ?? ""
+          }"
+          data-action="knockout-score"
+          data-round="${roundKey}"
+          data-match="${match.id}"
+          data-field="homeScore"
+        >
+
+        <span>-</span>
+
+        <input
+          type="number"
+          min="0"
+          class="score-input"
+          value="${
+            match.awayScore ?? ""
+          }"
+          data-action="knockout-score"
+          data-round="${roundKey}"
+          data-match="${match.id}"
+          data-field="awayScore"
+        >
+
+        <div class="away">
+          ${teamWithFlag(
+            match.awayTeam.name
+          )}
+        </div>
+      </div>
+
+      ${
+        isDraw
+          ? `
+            <div class="fixture">
+              <div class="home">
+                Penalties
+              </div>
+
+              <input
+                type="number"
+                min="0"
+                class="score-input"
+                value="${
+                  match.homePenalties ??
+                  ""
+                }"
+                data-action="knockout-score"
+                data-round="${roundKey}"
+                data-match="${match.id}"
+                data-field="homePenalties"
+              >
+
+              <span>-</span>
+
+              <input
+                type="number"
+                min="0"
+                class="score-input"
+                value="${
+                  match.awayPenalties ??
+                  ""
+                }"
+                data-action="knockout-score"
+                data-round="${roundKey}"
+                data-match="${match.id}"
+                data-field="awayPenalties"
+              >
+
+              <div class="away">
+                Penalty shootout
+              </div>
+            </div>
+          `
+          : ""
+      }
+    </article>
+  `;
+}
+
+function renderWorldCupKnockoutStage() {
+  const container =
+    ensureTournamentStageContainer();
+
+  if (!container) {
+    return;
+  }
+
+  ensureWorldCupTournamentState();
+
+  if (
+    Object.keys(
+      state.finalDraw || {}
+    ).length === 0
+  ) {
+    container.innerHTML = "";
+    return;
+  }
+
+  const hasRoundOf32 =
+    state.knockoutRounds
+      .roundOf32.length > 0;
+
+  container.innerHTML = `
+    <div class="section-header">
+      <div>
+        <p class="eyebrow">
+          Knockout stage
+        </p>
+
+        <h2>
+          Road to the World Cup Final
+        </h2>
+
+        <p>
+          The top two teams from each group qualify. Enter each result and the winner will progress automatically.
+        </p>
+      </div>
+
+      <div class="stage-actions">
+        ${
+          !hasRoundOf32
+            ? `
+              <button
+                type="button"
+                class="primary-btn"
+                data-action="build-round-of-32"
+                ${
+                  allFinalGroupsComplete()
+                    ? ""
+                    : "disabled"
+                }
+              >
+                Create Round of 32
+              </button>
+            `
+            : `
+              <button
+                type="button"
+                class="danger-btn"
+                data-action="reset-knockout"
+              >
+                Reset Knockout Stage
+              </button>
+            `
+        }
+      </div>
+    </div>
+
+    ${
+      state.worldCupWinner
+        ? `
+          <article
+            class="qualified-card host-qualified"
+            style="text-align:center; margin-bottom:1.5rem;"
+          >
+            <p class="eyebrow">
+              World Cup Champions
+            </p>
+
+            <h2>
+              🏆
+              ${teamWithFlag(
+                state.worldCupWinner.name
+              )}
+            </h2>
+          </article>
+        `
+        : ""
+    }
+
+    ${
+      !hasRoundOf32
+        ? `
+          <div class="empty-state">
+            <span class="empty-state-icon">
+              🏆
+            </span>
+
+            <p>
+              ${
+                allFinalGroupsComplete()
+                  ? "All groups are complete. Create the Round of 32 when you are happy with the tables."
+                  : "Complete all 16 group tables to unlock the knockout stage."
+              }
+            </p>
+          </div>
+        `
+        : knockoutRoundOrder
+            .map(roundKey => {
+              const matches =
+                state.knockoutRounds[
+                  roundKey
+                ];
+
+              if (!matches.length) {
+                return "";
+              }
+
+              return `
+                <section class="tournament-round">
+                  <div class="section-header">
+                    <div>
+                      <p class="eyebrow">
+                        World Cup
+                      </p>
+
+                      <h2>
+                        ${
+                          knockoutRoundNames[
+                            roundKey
+                          ]
+                        }
+                      </h2>
+                    </div>
+                  </div>
+
+                  <div class="playoff-grid">
+                    ${matches.map(
+                      match =>
+                        renderKnockoutMatch(
+                          roundKey,
+                          match
+                        )
+                    ).join("")}
+                  </div>
+                </section>
+              `;
+            })
+            .join("")
+    }
+  `;
 }
 
 function renderWorldCupDraw() {
@@ -2932,17 +4005,19 @@ function renderWorldCupDraw() {
     return;
   }
 
+  ensureWorldCupTournamentState();
+
   worldCupGroups.innerHTML = "";
 
   const groups =
-    Object.entries(
+    Object.keys(
       state.finalDraw || {}
-    );
+    ).sort();
 
   if (groups.length === 0) {
     const message =
       state.qualifiedTeams.length ===
-      TOURNAMENT_SIZE
+        TOURNAMENT_SIZE
         ? "All 64 teams are ready. Press Draw 16 Groups."
         : `The draw becomes available when 64 teams have qualified. ${state.qualifiedTeams.length} of 64 places are currently filled.`;
 
@@ -2952,85 +4027,40 @@ function renderWorldCupDraw() {
           🎲
         </span>
 
-        <p>
-          ${message}
-        </p>
+        <p>${message}</p>
       </div>
     `;
 
+    renderWorldCupKnockoutStage();
     return;
   }
 
-  groups.forEach(
-    (
-      [
-        groupLetter,
-        teams
-      ]
-    ) => {
-      const card =
-        document.createElement(
-          "article"
-        );
+  worldCupGroups.innerHTML = `
+    <div
+      class="section-header"
+      style="grid-column:1 / -1;"
+    >
+      <div>
+        <p class="eyebrow">
+          Final tournament
+        </p>
 
-      card.className =
-        "group-table";
+        <h2>
+          Your World Cup predictions
+        </h2>
 
-      card.innerHTML = `
-        <h3>
-          Group ${groupLetter}
-        </h3>
+        <p>
+          Swap any two countries, enter all group scores, then continue through every knockout round.
+        </p>
+      </div>
+    </div>
 
-        <div class="table-wrapper">
-          <table>
-            <thead>
-              <tr>
-                <th>Position</th>
-                <th>Country</th>
-                <th>Confederation</th>
-              </tr>
-            </thead>
+    ${groups.map(
+      renderFinalGroupCard
+    ).join("")}
+  `;
 
-            <tbody>
-              ${teams
-                .map(
-                  (
-                    team,
-                    index
-                  ) => `
-                    <tr>
-                      <td>
-                        ${index + 1}
-                      </td>
-
-                      <td>
-                        ${teamWithFlag(
-                          team.name
-                        )}
-                      </td>
-
-                      <td>
-                        ${
-                          continentCodes[
-                            team.continent
-                          ] ||
-                          "Playoff"
-                        }
-                      </td>
-                    </tr>
-                  `
-                )
-                .join("")}
-            </tbody>
-          </table>
-        </div>
-      `;
-
-      worldCupGroups.appendChild(
-        card
-      );
-    }
-  );
+  renderWorldCupKnockoutStage();
 }
 
 
@@ -3329,6 +4359,29 @@ document.addEventListener(
           .dataset.match
       );
     }
+    if (
+  action ===
+  "final-swap-team"
+) {
+  swapFinalDrawTeams(
+    actionElement.dataset.group,
+    actionElement.dataset.team
+  );
+}
+
+if (
+  action ===
+  "build-round-of-32"
+) {
+  buildRoundOf32();
+}
+
+if (
+  action ===
+  "reset-knockout"
+) {
+  resetKnockoutBracket();
+}
   }
 );
 
@@ -3357,6 +4410,29 @@ document.addEventListener(
         element.value
       );
     }
+    if (
+  action ===
+  "final-group-score"
+) {
+  updateFinalGroupScore(
+    element.dataset.group,
+    element.dataset.fixture,
+    element.dataset.side,
+    element.value
+  );
+}
+
+if (
+  action ===
+  "knockout-score"
+) {
+  updateKnockoutMatch(
+    element.dataset.round,
+    element.dataset.match,
+    element.dataset.field,
+    element.value
+  );
+}
 
     if (
       action ===
@@ -3380,6 +4456,7 @@ document.addEventListener(
 
 function renderEverything() {
   ensureAutomaticQualifiers();
+  ensureWorldCupTournamentState();
 
   Object.keys(
     state.continents
@@ -3393,6 +4470,8 @@ function renderEverything() {
   renderPlayoffs();
   renderWorldCupDraw();
 }
+
+
 
 
 /* =========================================================
