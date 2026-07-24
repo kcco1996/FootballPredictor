@@ -1030,21 +1030,56 @@ function ensureAutomaticQualifiers() {
     state.qualifiedTeams = [];
   }
 
-  automaticQualifiers.forEach(
-    host => {
-      const alreadyIncluded =
-        state.qualifiedTeams.some(
-          team =>
-            team.name.toLowerCase() ===
-            host.name.toLowerCase()
-        );
+  automaticQualifiers.forEach(host => {
+    const existingTeam =
+      state.qualifiedTeams.find(
+        team =>
+          team.name.toLowerCase() ===
+          host.name.toLowerCase()
+      );
 
-      if (!alreadyIncluded) {
-        state.qualifiedTeams.push({
-          ...host,
-          automatic: true
-        });
-      }
+    if (existingTeam) {
+      existingTeam.id = host.id;
+      existingTeam.name = host.name;
+      existingTeam.continent =
+        host.continent;
+      existingTeam.status =
+        host.status;
+      existingTeam.automatic = true;
+    } else {
+      state.qualifiedTeams.push({
+        ...host,
+        automatic: true
+      });
+    }
+  });
+}
+
+function repairFinalDrawTeamIds() {
+  Object.entries(
+    state.finalDraw || {}
+  ).forEach(
+    ([groupLetter, teams]) => {
+      teams.forEach(
+        (team, teamIndex) => {
+          if (team.id) {
+            return;
+          }
+
+          const automaticTeam =
+            automaticQualifiers.find(
+              host =>
+                host.name.toLowerCase() ===
+                team.name.toLowerCase()
+            );
+
+          team.id =
+            automaticTeam?.id ||
+            `final-${groupLetter}-${teamIndex}-${createFlagSlug(
+              team.name
+            )}`;
+        }
+      );
     }
   );
 }
@@ -4461,6 +4496,7 @@ if (
 
 function renderEverything() {
   ensureAutomaticQualifiers();
+  repairFinalDrawTeamIds();
   ensureWorldCupTournamentState();
 
   Object.keys(
