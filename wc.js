@@ -73,37 +73,42 @@ const continentCodes = {
 
 const automaticQualifiers = [
   {
+    id: "automatic-morocco",
     name: "Morocco",
     continent: "caf",
     status: "Host Nation"
   },
   {
+    id: "automatic-portugal",
     name: "Portugal",
     continent: "uefa",
     status: "Host Nation"
   },
   {
+    id: "automatic-spain",
     name: "Spain",
     continent: "uefa",
     status: "Host Nation"
   },
   {
+    id: "automatic-argentina",
     name: "Argentina",
     continent: "conmebol",
     status: "Centenary Host"
   },
   {
+    id: "automatic-paraguay",
     name: "Paraguay",
     continent: "conmebol",
     status: "Centenary Host"
   },
   {
+    id: "automatic-uruguay",
     name: "Uruguay",
     continent: "conmebol",
     status: "Centenary Host"
   }
 ];
-
 
 /* =========================================================
    PRESET QUALIFYING GROUPS
